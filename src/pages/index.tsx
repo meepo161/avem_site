@@ -90,7 +90,7 @@ export default function Home() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center">
+      <section className="relative h-[100svh] md:min-h-screen flex items-center">
         <div className="absolute inset-0 z-0">
           <HeroCarousel />
         </div>
@@ -102,13 +102,13 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl text-white"
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
               Инновационные решения для электротехнической промышленности
             </h1>
-            <p className="text-xl text-gray-200 mb-8">
+            <p className="text-lg sm:text-xl text-gray-200 mb-6 sm:mb-8">
               Разрабатываем и производим современное оборудование для тестирования и диагностики электрических агрегатов любой сложности
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
