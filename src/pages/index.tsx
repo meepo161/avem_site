@@ -95,24 +95,24 @@ export default function Home() {
           <HeroCarousel />
         </div>
 
-        <div className="container mx-auto px-4 z-10">
+        <div className="container mx-auto px-2 sm:px-4 z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="max-w-3xl text-white"
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-6">
               Инновационные решения для электротехнической промышленности
             </h1>
-            <p className="text-lg sm:text-xl text-gray-200 mb-6 sm:mb-8">
+            <p className="text-base xs:text-lg sm:text-xl text-gray-200 mb-4 sm:mb-6 md:mb-8">
               Разрабатываем и производим современное оборудование для тестирования и диагностики электрических агрегатов любой сложности
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col xs:flex-row gap-3 sm:gap-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="btn-primary"
+                className="btn-primary text-sm xs:text-base w-full xs:w-auto px-4 py-2 sm:px-6 sm:py-3"
                 onClick={(e) => handleCardClick(e, '/products')}
               >
                 <Link href="/products" onClick={(e) => e.preventDefault()}>Наша продукция</Link>
@@ -120,7 +120,7 @@ export default function Home() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="btn-secondary bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20"
+                className="btn-secondary bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 text-sm xs:text-base w-full xs:w-auto px-4 py-2 sm:px-6 sm:py-3"
                 onClick={(e) => handleCardClick(e, '/contacts')}
               >
                 <Link href="/contacts" onClick={(e) => e.preventDefault()}>Связаться с нами</Link>
@@ -131,13 +131,13 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto px-2 sm:px-4">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold text-center mb-12"
+            className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12"
           >
             Наши преимущества
           </motion.h2>
