@@ -1,0 +1,17 @@
+import { Html, Head, Main, NextScript } from 'next/document';
+
+export default function Document() {
+  return (
+    <Html lang="ru">
+      <Head>
+        <link rel="icon" href="/images/icon.ico" />
+        <meta name="description" content="АВЭМ и Авиаагрегат-Н - Инновационные решения для электротехнической промышленности" />
+        <meta name="theme-color" content="#0284c7" />
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  );
+} 
