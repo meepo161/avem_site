@@ -9,13 +9,13 @@ const HeroSection: React.FC = () => {
 
   return (
     <section className="relative min-h-[calc(100vh-64px)] flex items-center py-12 sm:py-16 md:py-20">
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800 z-0" />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 z-10">
+      <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800" />
+      <div className="relative w-full px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl mx-auto text-center sm:text-left"
+          className="max-w-4xl mx-auto text-center sm:text-left"
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight">
             Инновационные решения для электротехнической промышленности

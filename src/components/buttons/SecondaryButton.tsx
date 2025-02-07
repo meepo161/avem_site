@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
-interface PrimaryButtonProps {
+interface SecondaryButtonProps {
   children: ReactNode;
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
@@ -9,7 +9,7 @@ interface PrimaryButtonProps {
   className?: string;
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({
+const SecondaryButton: React.FC<SecondaryButtonProps> = ({
   children,
   onClick,
   type = 'button',
@@ -23,11 +23,11 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
     >
       {children}
     </motion.button>
   );
 };
 
-export default PrimaryButton;
+export default SecondaryButton;
