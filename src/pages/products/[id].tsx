@@ -6,6 +6,7 @@ import Layout from '@/components/layout/Layout';
 import ImageGallery from '@/components/ImageGallery';
 import ResizableTable from '@/components/ResizableTable';
 import { products, categories } from '@/data/products';
+import { useRouter } from 'next/router';
 
 interface ProductPageProps {
   product: typeof products[0];
@@ -16,10 +17,28 @@ interface ProductPageProps {
 type TabType = 'description' | 'specifications';
 
 export default function ProductPage({ product, category, subcategory }: ProductPageProps) {
+  const router = useRouter();
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   const shortDescription = product.description.split('\n')[0];
   const hasMoreDescription = product.description.split('\n').length > 1;
+
+  const handleBackClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const query: { [key: string]: string } = {};
+    
+    if (product.categoryId) {
+      query.category = product.categoryId;
+      if (product.subcategoryId) {
+        query.subcategory = product.subcategoryId;
+      }
+    }
+    
+    router.push({
+      pathname: '/products',
+      query
+    });
+  };
 
   return (
     <Layout>
@@ -31,8 +50,8 @@ export default function ProductPage({ product, category, subcategory }: ProductP
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
           >
-            <Link 
-              href="/products" 
+            <button 
+              onClick={handleBackClick}
               className="inline-flex items-center text-primary-600 hover:text-primary-700 transition-colors group"
             >
               <svg 
@@ -49,7 +68,7 @@ export default function ProductPage({ product, category, subcategory }: ProductP
                 />
               </svg>
               <span className="font-medium">Назад к каталогу</span>
-            </Link>
+            </button>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -131,6 +150,55 @@ export default function ProductPage({ product, category, subcategory }: ProductP
                 </div>
               </div>
 
+              {product.documents && product.documents.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8"
+                >
+                  <div className="p-6">
+                    <h2 className="text-xl font-semibold mb-4">Документация</h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {product.documents.map((doc) => (
+                        <a
+                          key={doc.id}
+                          href={doc.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-3 p-4 rounded-lg border border-gray-200 hover:border-primary-500 hover:bg-primary-50 transition-all group"
+                        >
+                          {doc.type === 'passport' && (
+                            <svg className="w-8 h-8 text-gray-500 group-hover:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          )}
+                          {doc.type === 'manual' && (
+                            <svg className="w-8 h-8 text-gray-500 group-hover:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                          )}
+                          {doc.type === 'certificate' && (
+                            <svg className="w-8 h-8 text-gray-500 group-hover:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                            </svg>
+                          )}
+                          {doc.type === 'verification' && (
+                            <svg className="w-8 h-8 text-gray-500 group-hover:text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                            </svg>
+                          )}
+                          <div>
+                            <h3 className="font-medium text-gray-900 group-hover:text-primary-700">{doc.title}</h3>
+                            <p className="text-sm text-gray-500">Нажмите, чтобы скачать</p>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -158,7 +226,7 @@ export default function ProductPage({ product, category, subcategory }: ProductP
             animate={{ opacity: 1, y: 0 }}
             className="mt-12 bg-white rounded-2xl shadow-lg"
           >
-            <ResizableTable specifications={product.specifications} />
+            {product.specifications && <ResizableTable specifications={product.specifications} />}
           </motion.div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import ImageWithFallback from './ImageWithFallback';
 
 interface ImageGalleryProps {
   images: string[];
@@ -9,12 +9,7 @@ interface ImageGalleryProps {
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
   const [selectedImage, setSelectedImage] = useState(images[0]);
-  const [imageError, setImageError] = useState<Record<string, boolean>>({});
   const [isZoomed, setIsZoomed] = useState(false);
-
-  const handleImageError = (image: string) => {
-    setImageError(prev => ({ ...prev, [image]: true }));
-  };
 
   const toggleZoom = () => {
     setIsZoomed(!isZoomed);
@@ -37,51 +32,29 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
       {/* Основное изображение */}
       <div className="relative bg-white h-[600px] group">
         <AnimatePresence mode="wait">
-          {!imageError[selectedImage] ? (
-            <motion.div
-              key={selectedImage}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="relative w-full h-full cursor-zoom-in"
-              onClick={toggleZoom}
-            >
-              <Image
-                src={selectedImage}
-                alt={title}
-                fill
-                className="object-contain transition-transform duration-300 group-hover:scale-105"
-                onError={() => handleImageError(selectedImage)}
-                sizes="(max-width: 768px) 100vw, 80vw"
-                priority
-              />
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  className="bg-white/90 p-3 rounded-full"
-                >
-                  <svg 
-                    className="w-6 h-6 text-primary-600" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" 
-                    />
-                  </svg>
-                </motion.div>
-              </div>
-            </motion.div>
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-50 text-gray-400">
-              <div className="text-center">
+          <motion.div
+            key={selectedImage}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="relative w-full h-full cursor-zoom-in"
+            onClick={toggleZoom}
+          >
+            <ImageWithFallback
+              src={selectedImage}
+              alt={title}
+              fill
+              className="object-contain transition-transform duration-300 group-hover:scale-105"
+              priority
+            />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                className="bg-white/90 p-3 rounded-full"
+              >
                 <svg 
-                  className="w-16 h-16 mx-auto mb-4 text-gray-300" 
+                  className="w-6 h-6 text-primary-600" 
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
@@ -90,13 +63,12 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
                     strokeLinecap="round" 
                     strokeLinejoin="round" 
                     strokeWidth={2} 
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" 
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" 
                   />
                 </svg>
-                <p className="text-lg">Изображение недоступно</p>
-              </div>
+              </motion.div>
             </div>
-          )}
+          </motion.div>
         </AnimatePresence>
 
         {/* Кнопки навигации и счетчик */}
@@ -144,13 +116,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
                 exit={{ scale: 0.9, opacity: 0 }}
                 className="relative w-full h-full"
               >
-                <Image
+                <ImageWithFallback
                   src={selectedImage}
                   alt={title}
                   fill
                   className="object-contain p-8"
-                  onError={() => handleImageError(selectedImage)}
-                  sizes="100vw"
                   priority
                 />
               </motion.div>
