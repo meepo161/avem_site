@@ -35,7 +35,7 @@ export const categories: Category[] = [
     name: 'Испытательное оборудование',
     subcategories: [
       { id: 'high-voltage', name: 'Высоковольтное испытательное оборудование' },
-      { id: 'diagnostic', name: 'Диагностическое оборудование' }
+      { id: 'diagnostic', name: 'Диагностика вращающихся машин' }
     ]
   },
   {
