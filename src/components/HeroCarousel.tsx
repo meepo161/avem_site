@@ -7,10 +7,10 @@ interface HeroCarouselProps {
 }
 
 const defaultImages = [
-  '/images/hero-bg.jpg',
-  '/images/snim-kazan-2.jpg',
-  '/images/products/КСПЭМ1000jpg.jpg',
-  '/images/products/kspem (7).jpg',
+  '/images/carousel/carousel (1).jpg',
+  '/images/carousel/carousel (2).jpg',
+  '/images/carousel/carousel (3).jpg',
+  '/images/carousel/carousel (4).jpg',
 ].map(path => path.toLowerCase());
 
 const variants = {
