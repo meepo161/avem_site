@@ -11,34 +11,36 @@ const Header: React.FC = () => {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <nav className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-2"
-          >
-            <Image
-              src="/images/icon.ico"
-              alt="АВЭМ и Авиаагрегат-Н Logo"
-              width={32}
-              height={32}
-              className="rounded-sm"
-            />
-            <Link href="/" className="text-2xl font-bold text-primary-600">
-              АВЭМ и Авиаагрегат-Н
-            </Link>
-          </motion.div>
+          <Link href="/">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <Image
+                src="/images/icon.ico"
+                width={40}
+                height={40}
+                alt="Авиаагрегат-Н Logo"
+                className="w-10 h-10"
+              />
+              <span className="text-lg font-semibold ml-2">
+                Авиаагрегат-Н
+              </span>
+            </motion.div>
+          </Link>
           
           <div className="hidden md:flex space-x-8">
             <Link href="/products" className="text-gray-700 hover:text-primary-600 transition-colors">
               Продукция
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-primary-600 transition-colors">
-              О компании
             </Link>
             <Link href="/certificates" className="text-gray-700 hover:text-primary-600 transition-colors">
               Сертификаты
             </Link>
             <Link href="/contacts" className="text-gray-700 hover:text-primary-600 transition-colors">
               Контакты
+            </Link>
+            <Link href="/about" className="text-gray-700 hover:text-primary-600 transition-colors">
+              О компании
             </Link>
           </div>
           

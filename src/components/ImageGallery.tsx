@@ -10,9 +10,55 @@ interface ImageGalleryProps {
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [hasMoved, setHasMoved] = useState(false);
+
+  const handleWheel = (e: React.WheelEvent) => {
+    if (e.ctrlKey) {
+      e.preventDefault();
+      const delta = e.deltaY * -0.01;
+      const newScale = Math.min(Math.max(0.5, scale + delta), 3);
+      setScale(newScale);
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (scale > 1) {
+      e.preventDefault();
+      setIsDragging(true);
+      setHasMoved(false);
+      setDragStart({ x: e.clientX - position.x, y: e.clientY - position.y });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging && scale > 1) {
+      e.preventDefault();
+      setHasMoved(true);
+      const newX = e.clientX - dragStart.x;
+      const newY = e.clientY - dragStart.y;
+      setPosition({ x: newX, y: newY });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleModalClick = (e: React.MouseEvent) => {
+    if (!hasMoved) {
+      toggleZoom();
+    }
+  };
 
   const toggleZoom = () => {
     setIsZoomed(!isZoomed);
+    setScale(1);
+    setPosition({ x: 0, y: 0 });
+    setHasMoved(false);
   };
 
   const currentImageIndex = images.findIndex(img => img === selectedImage);
@@ -107,7 +153,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-sm flex items-center justify-center"
-            onClick={toggleZoom}
+            onClick={handleModalClick}
           >
             <div className="relative w-full h-full flex items-center justify-center p-4">
               <motion.div
@@ -115,6 +161,15 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
                 className="relative w-full h-full"
+                onWheel={handleWheel}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                style={{ 
+                  touchAction: 'none',
+                  cursor: scale > 1 ? isDragging ? 'grabbing' : 'grab' : 'default'
+                }}
               >
                 <ImageWithFallback
                   src={selectedImage}
@@ -122,6 +177,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
                   fill
                   className="object-contain p-8"
                   priority
+                  style={{ 
+                    transform: `scale(${scale}) translate(${position.x / scale}px, ${position.y / scale}px)`,
+                    transition: isDragging ? 'none' : 'transform 0.2s ease-out'
+                  }}
                 />
               </motion.div>
 

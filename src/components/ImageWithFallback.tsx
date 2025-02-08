@@ -10,6 +10,7 @@ interface ImageWithFallbackProps {
   height?: number;
   fill?: boolean;
   priority?: boolean;
+  style?: React.CSSProperties;
 }
 
 const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
@@ -20,6 +21,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   height,
   fill = false,
   priority = false,
+  style,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -59,7 +61,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
         onLoad={handleLoad}
         onError={handleError}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        style={{ objectFit: 'contain' }}
+        style={{ objectFit: 'contain', ...style }}
       />
 
       {/* Сообщение об ошибке */}

@@ -12,13 +12,13 @@ const Logo: React.FC = () => {
       >
         <Image
           src="/images/icon.ico"
-          alt="АВЭМ и Авиаагрегат-Н Logo"
-          width={32}
-          height={32}
-          className="rounded-sm"
+          width={40}
+          height={40}
+          alt="Авиаагрегат-Н Logo"
+          className="w-10 h-10"
         />
-        <span className="text-xl font-bold text-primary-600">
-          АВЭМ и Авиаагрегат-Н
+        <span className="text-lg font-semibold ml-2">
+          Авиаагрегат-Н
         </span>
       </motion.div>
     </Link>

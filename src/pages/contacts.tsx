@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion } from 'framer-motion';
 import Script from 'next/script';
+import HeroBackground from '@/components/HeroBackground';
 
 declare global {
   interface Window {
@@ -10,9 +11,20 @@ declare global {
 }
 
 const ContactsPage = () => {
+  const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
+  
+  const handleCopyEmail = (email: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(email).then(() => {
+      setCopiedEmail(email);
+      setTimeout(() => setCopiedEmail(null), 2000);
+    });
+  };
+
   const mainContacts = {
     address: '346411 Ростовская обл., г. Новочеркасск, ул.26 Бакинских комиссаров, 11В',
-    fullAddress: '346411, Ростовская обл., г. Новочеркасск, ул.26 Бакинских комиссаров, 11в, Группа компаний ООО НПП "АВЭМ" и ООО "Авиаагрегат-Н"',
+    fullAddress: '346411, Ростовская обл., г. Новочеркасск, ул.26 Бакинских комиссаров, 11в, ООО "Авиаагрегат-Н"',
     phones: [
       '+7 (8635) 26-04-55',
       '+7 (8635) 29-92-37',
@@ -28,6 +40,13 @@ const ContactsPage = () => {
     }
   };
 
+  const contactImages = [
+    '/images/contacts/office.jpg',
+    '/images/contacts/building.jpg',
+    '/images/contacts/entrance.jpg',
+    '/images/contacts/reception.jpg',
+  ];
+
   useEffect(() => {
     // Функция инициализации карты
     const initMap = () => {
@@ -40,10 +59,10 @@ const ContactsPage = () => {
             });
 
             const placemark = new window.ymaps.Placemark([47.429230, 40.069250], {
-              balloonContent: 'ООО НПП "АВЭМ" и ООО "Авиаагрегат-Н"',
-              balloonContentHeader: 'Группа компаний АВЭМ',
+              balloonContent: 'ООО "Авиаагрегат-Н"',
+              balloonContentHeader: 'Авиаагрегат-Н',
               balloonContentBody: 'ул. 26 Бакинских комиссаров, 11В',
-              hintContent: 'АВЭМ и Авиаагрегат-Н'
+              hintContent: 'Авиаагрегат-Н'
             }, {
               preset: 'islands#blueFactory'
             });
@@ -85,34 +104,40 @@ const ContactsPage = () => {
       />
 
       {/* Hero секция */}
-      <section className="relative bg-gradient-to-b from-gray-900 to-gray-800 text-white py-24">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-primary-900/20" />
-          <div 
-            className="absolute inset-0" 
-            style={{ 
-              backgroundImage: 'url(/images/grid.svg)',
-              backgroundRepeat: 'repeat',
-              opacity: 0.1 
-            }} 
-          />
+      <section className="relative h-[40vh] md:min-h-[300px] flex items-center">
+        <div className="absolute inset-0 z-0">
+          <HeroBackground image="/images/hero-bg.jpg" />
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-3xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="text-5xl font-bold mb-6">Контакты</h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
+            <h1 className="text-5xl font-bold mb-6 text-white">
+              Контакты
+            </h1>
+            <p className="text-lg text-white/80 mb-8">
               Свяжитесь с нами для получения дополнительной информации о продукции, 
               технической поддержке или сотрудничестве
             </p>
+            <motion.a
+              href="mailto:sales@avem.ru"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Связаться с нами
+            </motion.a>
           </motion.div>
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
+      {/* Основной контент */}
+      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -157,16 +182,193 @@ const ContactsPage = () => {
                   <svg className="w-6 h-6 text-primary-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <div className="font-semibold mb-2">Отделы:</div>
-                      <div className="space-y-1 text-gray-600">
-                        <div>Техподдержка: {mainContacts.emails.support}</div>
-                        <div>Отдел продаж: {mainContacts.emails.sales}</div>
-                        <div>Отдел снабжения: {mainContacts.emails.supply}</div>
-                        <div>IT отдел: {mainContacts.emails.it}</div>
-                        <div>Конструкторский отдел: {mainContacts.emails.engineering}</div>
-                      </div>
+                  <div id="email-section" className="w-full transition-all duration-300">
+                    <div className="font-semibold mb-4">Электронная почта:</div>
+                    <div className="flex flex-col gap-3">
+                      <motion.a
+                        href={`mailto:${mainContacts.emails.support}`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-gray-500">Техподдержка</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.support}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <motion.button
+                            onClick={(e) => handleCopyEmail(mainContacts.emails.support, e)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            title="Копировать email"
+                          >
+                            {copiedEmail === mainContacts.emails.support ? (
+                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                              </svg>
+                            )}
+                          </motion.button>
+                          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 group-hover:bg-primary-100 transition-colors"
+                            title="Отправить email">
+                            <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </motion.a>
+
+                      <motion.a
+                        href={`mailto:${mainContacts.emails.sales}`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-gray-500">Отдел продаж</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.sales}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <motion.button
+                            onClick={(e) => handleCopyEmail(mainContacts.emails.sales, e)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            title="Копировать email"
+                          >
+                            {copiedEmail === mainContacts.emails.sales ? (
+                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                              </svg>
+                            )}
+                          </motion.button>
+                          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 group-hover:bg-primary-100 transition-colors"
+                            title="Отправить email">
+                            <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </motion.a>
+
+                      <motion.a
+                        href={`mailto:${mainContacts.emails.supply}`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-gray-500">Отдел снабжения</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.supply}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <motion.button
+                            onClick={(e) => handleCopyEmail(mainContacts.emails.supply, e)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            title="Копировать email"
+                          >
+                            {copiedEmail === mainContacts.emails.supply ? (
+                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                              </svg>
+                            )}
+                          </motion.button>
+                          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 group-hover:bg-primary-100 transition-colors"
+                            title="Отправить email">
+                            <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </motion.a>
+
+                      <motion.a
+                        href={`mailto:${mainContacts.emails.it}`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-gray-500">IT отдел</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.it}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <motion.button
+                            onClick={(e) => handleCopyEmail(mainContacts.emails.it, e)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            title="Копировать email"
+                          >
+                            {copiedEmail === mainContacts.emails.it ? (
+                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                              </svg>
+                            )}
+                          </motion.button>
+                          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 group-hover:bg-primary-100 transition-colors"
+                            title="Отправить email">
+                            <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </motion.a>
+
+                      <motion.a
+                        href={`mailto:${mainContacts.emails.engineering}`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm text-gray-500">Конструкторский отдел</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.engineering}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <motion.button
+                            onClick={(e) => handleCopyEmail(mainContacts.emails.engineering, e)}
+                            className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            title="Копировать email"
+                          >
+                            {copiedEmail === mainContacts.emails.engineering ? (
+                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                              </svg>
+                            )}
+                          </motion.button>
+                          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 group-hover:bg-primary-100 transition-colors"
+                            title="Отправить email">
+                            <svg className="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </motion.a>
                     </div>
                   </div>
                 </div>

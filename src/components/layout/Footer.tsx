@@ -1,8 +1,38 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
 
 const Footer: React.FC = () => {
+  const router = useRouter();
+  
+  const handleSupportClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push('/contacts').then(() => {
+      setTimeout(() => {
+        const emailSection = document.getElementById('email-section');
+        if (emailSection) {
+          const windowHeight = window.innerHeight;
+          const sectionRect = emailSection.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const targetScroll = scrollTop + sectionRect.top - (windowHeight - sectionRect.height) / 2;
+          
+          window.scrollTo({
+            top: targetScroll,
+            behavior: 'smooth'
+          });
+          
+          // Добавляем подсветку секции
+          emailSection.classList.add('ring-4', 'ring-primary-400', 'ring-opacity-50');
+          setTimeout(() => {
+            emailSection.classList.remove('ring-4', 'ring-primary-400', 'ring-opacity-50');
+          }, 2000);
+        }
+      }, 500); // Даем время для загрузки страницы
+    });
+  };
+
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-12">
@@ -12,12 +42,13 @@ const Footer: React.FC = () => {
               <div className="relative w-8 h-8">
                 <Image
                   src="/images/icon.ico"
-                  alt="АВЭМ и Авиаагрегат-Н Logo"
-                  fill
-                  className="rounded-sm object-contain"
+                  width={48}
+                  height={48}
+                  alt="Авиаагрегат-Н Logo"
+                  className="rounded-sm"
                 />
               </div>
-              <h3 className="text-xl font-bold">АВЭМ и Авиаагрегат-Н</h3>
+              <h3 className="text-xl font-bold">Авиаагрегат-Н</h3>
             </div>
             <p className="text-gray-400 mb-4">
               Разработка и производство оборудования для тестирования и диагностики электрических агрегатов любой сложности
@@ -78,22 +109,32 @@ const Footer: React.FC = () => {
                 </div>
               </li>
               <li className="flex items-center gap-2">
-                <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span>sales@avem.ru</span>
+                <div className="flex items-center gap-2 group">
+                  <motion.a
+                    href="mailto:sales@avem.ru"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary-600 transition-colors"
+                    title="Написать на sales@avem.ru"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </motion.a>
+                  <span className="group-hover:text-primary-400 transition-colors">sales@avem.ru</span>
+                </div>
               </li>
               <li className="flex items-center gap-2">
                 <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>Пн-Пт: 9:00 - 18:00</span>
+                <span>Пн-Пт: 8:30 - 17:20</span>
               </li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-4">Документация</h4>
+            <h4 className="text-lg font-semibold mb-4">Информация</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/certificates" className="text-gray-400 hover:text-white">
@@ -101,17 +142,11 @@ const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/docs/manuals" className="text-gray-400 hover:text-white">
-                  Руководства
-                </Link>
-              </li>
-              <li>
-                <Link href="/docs/software" className="text-gray-400 hover:text-white">
-                  ПО и обновления
-                </Link>
-              </li>
-              <li>
-                <Link href="/support" className="text-gray-400 hover:text-white">
+                <Link 
+                  href="/contacts" 
+                  onClick={handleSupportClick}
+                  className="text-gray-400 hover:text-white"
+                >
                   Техподдержка
                 </Link>
               </li>
@@ -120,7 +155,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; {new Date().getFullYear()} АВЭМ и Авиаагрегат-Н. Все права защищены.</p>
+          <p>&copy; {new Date().getFullYear()} Авиаагрегат-Н. Все права защищены.</p>
         </div>
       </div>
     </footer>

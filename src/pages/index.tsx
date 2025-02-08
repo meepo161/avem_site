@@ -58,19 +58,43 @@ const solutions = [
     title: 'Измерительное оборудование',
     description: 'Широкий спектр приборов для измерения электрических параметров',
     image: '/images/products/avem3.png',
-    link: '/products'
+    link: '/products?category=measuring',
+    categoryId: 'measuring'
   },
   {
     title: 'Испытательные стенды',
     description: 'Комплексные решения для тестирования электрооборудования',
     image: '/images/products/ливс.jpg',
-    link: '/products'
+    link: '/products?category=testing',
+    categoryId: 'testing'
   },
   {
-    title: 'Автоматизация',
-    description: 'Системы управления и мониторинга производственных процессов',
-    image: '/images/products/КСИПН.jpg',
-    link: '/products'
+    title: 'Диагностика двигателей',
+    description: 'Комплексный стенд проверки асинхронных двигателей (КСПАД)',
+    image: '/images/products/kspad (1).jpg',
+    link: '/products?category=testing&subcategory=diagnostic',
+    categoryId: 'testing'
+  },
+  {
+    title: 'Диагностика трансформаторов',
+    description: 'Комплексные решения для проверки и испытания трансформаторов',
+    image: '/images/products/КСПЭМ1000jpg.jpg',
+    link: '/products?category=testing&subcategory=transformer-testing',
+    categoryId: 'testing'
+  },
+  {
+    title: 'Нагрузочные устройства',
+    description: 'Оборудование для проведения нагрузочных испытаний',
+    image: '/images/products/unm-1750 (1).jpg',
+    link: '/products?category=load-devices',
+    categoryId: 'load-devices'
+  },
+  {
+    title: 'Системы управления и мониторинга',
+    description: 'Автоматизированные системы управления технологическими процессами',
+    image: '/images/products/sum-1 (1).jpg',
+    link: '/products?category=automation',
+    categoryId: 'automation'
   }
 ];
 
@@ -84,13 +108,16 @@ export default function Home() {
       window.open(link, '_blank');
       return;
     }
-    router.push(link);
+    router.push(link).then(() => {
+      // Прокручиваем к началу страницы после перехода
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   };
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative h-[100svh] md:min-h-screen flex items-center">
+      <section className="relative h-[50vh] md:min-h-[400px] flex items-center">
         <div className="absolute inset-0 z-0">
           <HeroCarousel />
         </div>
@@ -130,36 +157,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-2 sm:px-4">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12"
-          >
-            Наши преимущества
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Solutions Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -175,7 +172,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {solutions.map((solution, index) => (
               <Link 
                 key={index}
@@ -187,7 +184,7 @@ export default function Home() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all cursor-pointer"
                   whileHover={{ y: -5 }}
                 >
@@ -254,7 +251,7 @@ export default function Home() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all cursor-pointer h-full"
                   whileHover={{ y: -5 }}
                 >
@@ -305,6 +302,36 @@ export default function Home() {
               </svg>
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto px-2 sm:px-4">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12"
+          >
+            Наши преимущества
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
     </Layout>

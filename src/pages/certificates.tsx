@@ -3,6 +3,7 @@ import Layout from '@/components/layout/Layout';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import ImageGallery from '@/components/ImageGallery';
+import HeroBackground from '@/components/HeroBackground';
 
 const certificates = [
   {
@@ -106,33 +107,37 @@ const certificates = [
 const CertificatesPage = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
+  const certificateImages = [
+    '/images/certificates/Sidetelstvo-attastat-Silis-001.jpg',
+    '/images/certificates/Sertifikat_kvm_RB.jpg',
+    '/images/certificates/ISO.jpg',
+    '/images/certificates/gold_merk_2018.jpg',
+  ];
+
   return (
     <Layout>
       {/* Hero секция */}
-      <section className="relative bg-gradient-to-b from-gray-900 to-gray-800 text-white py-24">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-primary-900/20" />
-          <div 
-            className="absolute inset-0" 
-            style={{ 
-              backgroundImage: 'url(/images/grid.svg)',
-              backgroundRepeat: 'repeat',
-              opacity: 0.1 
-            }} 
-          />
+      <section className="relative h-[40vh] md:min-h-[300px] flex items-center">
+        <div className="absolute inset-0 z-0">
+          <HeroBackground image="/images/products/ливс.jpg" />
         </div>
-        <div className="container mx-auto px-4 relative">
-          <motion.div
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-3xl mx-auto text-center"
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-5xl font-bold text-white mb-4"
           >
-            <h1 className="text-5xl font-bold mb-6">Сертификаты и награды</h1>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              Качество нашей продукции подтверждено многочисленными сертификатами и наградами. 
-              Мы гордимся тем, что соответствуем самым высоким стандартам в отрасли.
-            </p>
-          </motion.div>
+            Сертификаты
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg md:text-xl text-white/80"
+          >
+            Документы, подтверждающие качество и соответствие нашей продукции стандартам
+          </motion.p>
         </div>
       </section>
 

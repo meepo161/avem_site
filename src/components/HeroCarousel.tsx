@@ -2,12 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const images = [
+interface HeroCarouselProps {
+  images?: string[];
+}
+
+const defaultImages = [
   '/images/hero-bg.jpg',
-  '/images/products/ливс.jpg',
+  '/images/snim-kazan-2.jpg',
   '/images/products/КСПЭМ1000jpg.jpg',
-  '/images/products/КСИПН.jpg',
-];
+  '/images/products/kspem (7).jpg',
+].map(path => path.toLowerCase());
 
 const variants = {
   enter: (direction: number) => ({
@@ -24,7 +28,7 @@ const variants = {
   })
 };
 
-const HeroCarousel: React.FC = () => {
+const HeroCarousel: React.FC<HeroCarouselProps> = ({ images = defaultImages }) => {
   const [[page, direction], setPage] = useState([0, 0]);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -69,12 +73,17 @@ const HeroCarousel: React.FC = () => {
           >
             <Image
               src={src}
-              alt="АВЭМ и Авиаагрегат-Н Hero Background"
+              alt="Авиаагрегат-Н Hero Background"
               fill
               className="object-cover"
               priority={index === imageIndex}
               sizes="100vw"
               quality={90}
+              onError={(e) => {
+                console.error(`Error loading image: ${src}`);
+                // Можно добавить fallback изображение при ошибке
+                (e.target as HTMLImageElement).src = '/images/placeholder.jpg';
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
           </div>

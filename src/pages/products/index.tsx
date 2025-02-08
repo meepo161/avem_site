@@ -5,6 +5,7 @@ import ProductCard from '@/components/ProductCard';
 import CategoryFilter from '@/components/CategoryFilter';
 import { motion } from 'framer-motion';
 import { products, categories } from '@/data/products';
+import HeroBackground from '@/components/HeroBackground';
 
 type SortOption = 'name' | 'type';
 
@@ -127,6 +128,13 @@ export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const productImages = [
+    '/images/products/КСПЭМ1000jpg.jpg',
+    '/images/products/КСИПН.jpg',
+    '/images/products/ливс.jpg',
+    '/images/products/КИЛОВОЛЬТМЕТР КВМ.jpg',
+  ];
 
   // Синхронизация состояния с URL при монтировании и изменении URL
   useEffect(() => {
@@ -311,41 +319,45 @@ export default function Products() {
   return (
     <Layout>
       {/* Hero секция */}
-      <section className="relative bg-gradient-to-b from-gray-900 to-gray-800 text-white py-24">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-primary-900/20" />
-          <div 
-            className="absolute inset-0" 
-            style={{ 
-              backgroundImage: 'url(/images/grid.svg)',
-              backgroundRepeat: 'repeat',
-              opacity: 0.1 
-            }} 
-          />
+      <section className="relative h-[40vh] md:min-h-[300px] flex items-center">
+        <div className="absolute inset-0 z-0">
+          <HeroBackground image="/images/products/КСПЭМ1000jpg.jpg" />
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="container mx-auto px-4 relative z-10">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-5xl font-bold text-white mb-4"
+          >
+            Продукция
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg md:text-xl text-white/80"
+          >
+            Широкий ассортимент высококачественного оборудования для различных отраслей промышленности
+          </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mx-auto text-center"
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="max-w-2xl mx-auto mt-8"
           >
-            <h1 className="text-4xl font-bold mb-6">
-              {currentSubcategory?.name || currentCategory}
-            </h1>
-            <div className="max-w-xl mx-auto">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  placeholder="Поиск по каталогу..."
-                  className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm rounded-lg text-white placeholder-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                  <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Поиск по названию или описанию..."
+                className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+              <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
               </div>
             </div>
           </motion.div>
@@ -370,7 +382,7 @@ export default function Products() {
             {/* Список продуктов */}
             <div className="lg:col-span-3">
               <div className="mb-8">
-                <h1 className="text-3xl font-bold mb-2">{currentCategory}</h1>
+                <h1 className="text-4xl font-bold mb-2">{currentCategory}</h1>
                 {currentSubcategory && (
                   <p className="text-gray-600">{currentSubcategory.name}</p>
                 )}
