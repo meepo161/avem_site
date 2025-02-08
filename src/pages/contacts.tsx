@@ -189,13 +189,13 @@ const ContactsPage = () => {
                         href={`mailto:${mainContacts.emails.support}`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                           <span className="text-sm text-gray-500">Техподдержка</span>
-                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.support}</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text break-all">{mainContacts.emails.support}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mt-2 sm:mt-0">
                           <motion.button
                             onClick={(e) => handleCopyEmail(mainContacts.emails.support, e)}
                             className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
@@ -226,13 +226,13 @@ const ContactsPage = () => {
                         href={`mailto:${mainContacts.emails.sales}`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                           <span className="text-sm text-gray-500">Отдел продаж</span>
-                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.sales}</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text break-all">{mainContacts.emails.sales}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mt-2 sm:mt-0">
                           <motion.button
                             onClick={(e) => handleCopyEmail(mainContacts.emails.sales, e)}
                             className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
@@ -263,13 +263,13 @@ const ContactsPage = () => {
                         href={`mailto:${mainContacts.emails.supply}`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                           <span className="text-sm text-gray-500">Отдел снабжения</span>
-                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.supply}</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text break-all">{mainContacts.emails.supply}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mt-2 sm:mt-0">
                           <motion.button
                             onClick={(e) => handleCopyEmail(mainContacts.emails.supply, e)}
                             className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
@@ -300,13 +300,13 @@ const ContactsPage = () => {
                         href={`mailto:${mainContacts.emails.it}`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                           <span className="text-sm text-gray-500">IT отдел</span>
-                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.it}</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text break-all">{mainContacts.emails.it}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mt-2 sm:mt-0">
                           <motion.button
                             onClick={(e) => handleCopyEmail(mainContacts.emails.it, e)}
                             className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
@@ -337,13 +337,13 @@ const ContactsPage = () => {
                         href={`mailto:${mainContacts.emails.engineering}`}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex items-center justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 px-3 bg-white border border-gray-200 rounded-lg hover:border-primary-400 hover:shadow-md transition-all group"
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                           <span className="text-sm text-gray-500">Конструкторский отдел</span>
-                          <span className="text-primary-600 group-hover:text-primary-700 select-text">{mainContacts.emails.engineering}</span>
+                          <span className="text-primary-600 group-hover:text-primary-700 select-text break-all">{mainContacts.emails.engineering}</span>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mt-2 sm:mt-0">
                           <motion.button
                             onClick={(e) => handleCopyEmail(mainContacts.emails.engineering, e)}
                             className="w-8 h-8 flex items-center justify-center rounded-full bg-primary-50 hover:bg-primary-100 transition-colors"
