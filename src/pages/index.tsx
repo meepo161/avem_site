@@ -18,14 +18,14 @@ const products = [
     id: 4,
     title: 'ИКАС-10',
     description: 'Прецизионный омметр для измерения малых сопротивлений. Предназначен для измерения переходных сопротивлений контактов высоковольтных выключателей.',
-    image: '/images/products/ИКАС-10.jpg',
+    image: '/images/products/ikas (1).jpg',
     category: 'Измерительные приборы'
   },
   {
     id: 5,
     title: 'АВЭМ-9',
     description: 'Цифровой мегаомметр для измерения сопротивления изоляции электрооборудования. Оснащен функцией измерения коэффициента абсорбции.',
-    image: '/images/products/АВЭМ9.jpg',
+    image: '/images/products/avem-9 (1).jpg',
     category: 'Измерительные приборы'
   },
 ];
@@ -57,7 +57,7 @@ const solutions = [
   {
     title: 'Измерительное оборудование',
     description: 'Широкий спектр приборов для измерения электрических параметров',
-    image: '/images/products/ikas (1).jpg',
+    image: '/images/products/avem-4 (1).png',
     link: '/products?category=measuring',
     categoryId: 'measuring'
   },
