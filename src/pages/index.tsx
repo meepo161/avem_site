@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
 import Image from 'next/image';
@@ -100,6 +100,21 @@ const solutions = [
 
 export default function Home() {
   const router = useRouter();
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const currentScale = window.innerWidth / document.documentElement.clientWidth;
+      setScale(currentScale);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Инициализация при первом рендере
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleCardClick = (e: React.MouseEvent, link: string) => {
     e.preventDefault();
@@ -117,7 +132,7 @@ export default function Home() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative h-[50vh] md:min-h-[400px] flex items-center">
+      <section className="relative h-[100vh] md:h-[60vh] md:min-h-[500px] flex items-center">
         <div className="absolute inset-0 z-0">
           <HeroCarousel />
         </div>
