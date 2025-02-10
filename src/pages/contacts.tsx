@@ -23,14 +23,13 @@ const ContactsPage = () => {
   };
 
   const mainContacts = {
-    address: '346411 Ростовская обл., г. Новочеркасск, ул.26 Бакинских комиссаров, 11В',
-    fullAddress: '346411, Ростовская обл., г. Новочеркасск, ул.26 Бакинских комиссаров, 11в, ООО "Авиаагрегат-Н"',
+    address: '346411 Ростовская обл., г. Новочеркасск, ул.26 Бакинских комиссаров, 11В, ООО "Авиаагрегат-Н"',
+    fullAddress: '346421, Ростовская обл., г. Новочеркасск, а/я 113',
     phones: [
-      '+7 (8635) 26-04-55',
-      '+7 (8635) 29-92-37',
-      '+7 (8635) 26-07-82'
+      '+7 (8635) 26-07-82',
+      '+7 (938) 158-61-64'
     ],
-    marketing: '+7-950-856-28-87',
+    marketing: '+7 (950) 856-28-87', 
     emails: {
       support: 'support@avem.ru',
       sales: 'sales@avem.ru',
@@ -156,7 +155,15 @@ const ContactsPage = () => {
                   <div>
                     <div className="font-medium mb-2">Фактический адрес:</div>
                     <div className="text-gray-600">{mainContacts.address}</div>
-                    <div className="font-medium mt-4 mb-2">Почтовый адрес:</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <svg className="w-6 h-6 text-primary-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <div>
+                    <div className="font-medium mb-2">Почтовый адрес:</div>
                     <div className="text-gray-600">{mainContacts.fullAddress}</div>
                   </div>
                 </div>
@@ -167,12 +174,12 @@ const ContactsPage = () => {
                   </svg>
                   <div>
                     <div className="space-y-1">
+                    <div className="font-medium mb-2">Номер телефона:</div>
                       {mainContacts.phones.map((phone, index) => (
                         <div key={index} className="text-gray-600">{phone}</div>
                       ))}
                     </div>
                     <div className="mt-2">
-                      <span className="text-primary-600">Маркетинг: </span>
                       <span className="text-gray-600">{mainContacts.marketing}</span>
                     </div>
                   </div>
@@ -183,7 +190,7 @@ const ContactsPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   <div id="email-section" className="w-full transition-all duration-300">
-                    <div className="font-semibold mb-4">Электронная почта:</div>
+                    <div className="font-medium mb-4">Электронная почта:</div>
                     <div className="flex flex-col gap-3">
                       <motion.a
                         href={`mailto:${mainContacts.emails.support}`}

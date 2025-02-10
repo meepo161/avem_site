@@ -100,11 +100,12 @@ const Footer: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
                 <div className="flex flex-col">
-                  <span>+7 (8635) 29-92-37</span>
                   <span>+7 (8635) 26-07-82</span>
                   <span className="flex items-center gap-1">
-                    <span className="text-primary-400">Маркетинг:</span>
-                    <span>+7-950-856-28-87</span>
+                    <span>+7 (950) 856-28-87</span>
+                  </span>
+                  <span className="flex items-center gap-1">
+                  <span>+7 (938) 158-61-64</span>
                   </span>
                 </div>
               </li>

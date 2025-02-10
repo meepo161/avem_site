@@ -336,7 +336,7 @@ const AboutPage = () => {
       bgColor: 'bg-blue-50'
     },
     {
-      name: 'ОАО «Чирчикский трансформаторный завод»',
+      name: 'ЧИПС ФЛ ФГБОУ ВО «УРГУПС» Челябинский институт путей сообщения',
       image: '/images/clients/chirt.png',
       bgColor: 'bg-blue-50'
     },
@@ -432,7 +432,7 @@ const AboutPage = () => {
       </section>
 
       {/* Main Content */}
-      <section className="py-16 bg-white">
+      <section className="py-8 bg-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -453,8 +453,8 @@ const AboutPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
                   <AnimatedCounter end={26} title="лет на рынке" />
                   <AnimatedCounter end={1500} title="клиентов" />
-                  <AnimatedCounter end={45} title="продуктов" />
-                  <AnimatedCounter end={18} title="патентов" />
+                  <AnimatedCounter end={100} title="продуктов" />
+                  <AnimatedCounter end={50} title="патентов" />
                 </div>
               </div>
 
@@ -551,8 +551,48 @@ const AboutPage = () => {
         </div>
       </section>
 
+      {/* Улучшенная секция контактов */}
+      <section className="bg-gradient-to-b from-white to-gray-50">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="text-3xl font-bold mb-8">Готовы к сотрудничеству?</h2>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Наши специалисты готовы обсудить ваш проект и предложить оптимальное решение для вашего предприятия
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.a
+                href="/contacts"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-primary-600 text-white px-8 py-4 rounded-lg font-medium text-lg hover:bg-primary-700 transition-colors inline-flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                Связаться с нами
+              </motion.a>
+              <motion.a
+                href="mailto:sales@avem.ru"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-primary-600 border-2 border-primary-600 px-8 py-4 rounded-lg font-medium text-lg hover:bg-primary-50 transition-colors inline-flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Написать письмо
+              </motion.a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+      
       {/* Клиенты с улучшенным дизайном */}
-      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-32 bg-gradient-to-b from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -596,45 +636,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Улучшенная секция контактов */}
-      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h2 className="text-3xl font-bold mb-8">Готовы к сотрудничеству?</h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Наши специалисты готовы обсудить ваш проект и предложить оптимальное решение для вашего предприятия
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <motion.a
-                href="/contacts"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-primary-600 text-white px-8 py-4 rounded-lg font-medium text-lg hover:bg-primary-700 transition-colors inline-flex items-center justify-center gap-2"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                Связаться с нами
-              </motion.a>
-              <motion.a
-                href="mailto:sales@avem.ru"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-primary-600 border-2 border-primary-600 px-8 py-4 rounded-lg font-medium text-lg hover:bg-primary-50 transition-colors inline-flex items-center justify-center gap-2"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Написать письмо
-              </motion.a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </Layout>
   );
 };
