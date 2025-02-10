@@ -187,84 +187,6 @@ export default function ProductPage({ product, category, subcategory }: ProductP
                   </div>
                 )}
               </div>
-
-              {/* Модальное окно с увеличенным изображением */}
-              <AnimatePresence>
-                {isZoomed && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-sm flex items-center justify-center"
-                    onClick={() => setIsZoomed(false)}
-                  >
-                    <div className="relative w-full h-full flex items-center justify-center p-4">
-                      <motion.div
-                        className="relative w-full h-full"
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.9, opacity: 0 }}
-                      >
-                        <ImageWithFallback
-                          src={product.images[currentImageIndex]}
-                          alt={`${product.name} - увеличенное изображение ${currentImageIndex + 1}`}
-                          fill
-                          className="object-contain"
-                          priority
-                        />
-                      </motion.div>
-
-                      {/* Кнопки навигации в модальном окне */}
-                      {product.images.length > 1 && (
-                        <>
-                          <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
-                            }}
-                            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"
-                          >
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                            </svg>
-                          </motion.button>
-                          <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
-                            }}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"
-                          >
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </motion.button>
-                        </>
-                      )}
-
-                      {/* Кнопки управления */}
-                      <div className="absolute top-4 right-4 flex gap-2">
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          onClick={() => setIsZoomed(false)}
-                          className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
-                        >
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </motion.button>
-                      </div>
-
-                      {/* Счетчик изображений */}
-                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium">
-                        {currentImageIndex + 1} / {product.images.length}
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </motion.div>
 
             {/* Информация о продукте */}
@@ -290,8 +212,8 @@ export default function ProductPage({ product, category, subcategory }: ProductP
 
               <h1 className="text-4xl font-bold text-gray-900 mb-6">{product.name}</h1>
 
-              {/* Описание */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
+              {/* Описание к продукту */}
+              <div className="bg-white z-[2] rounded-2xl shadow-lg overflow-hidden mb-6">
                 <div className="p-8">
                   <motion.div
                     animate={{ height: showFullDescription ? "auto" : "auto" }}
@@ -392,6 +314,84 @@ export default function ProductPage({ product, category, subcategory }: ProductP
               </div>
             </motion.div>
           </div>
+
+          {/* Модальное окно с увеличенным изображением */}
+          <AnimatePresence>
+            {isZoomed && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[99999] bg-black/95 backdrop-blur-sm flex items-center justify-center"
+                onClick={() => setIsZoomed(false)}
+              >
+                <div className="relative w-full h-full flex items-center justify-center p-4">
+                  <motion.div
+                    className="relative w-full h-full"
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.9, opacity: 0 }}
+                  >
+                    <ImageWithFallback
+                      src={product.images[currentImageIndex]}
+                      alt={`${product.name} - увеличенное изображение ${currentImageIndex + 1}`}
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </motion.div>
+
+                  {/* Кнопки навигации в модальном окне */}
+                  {product.images.length > 1 && (
+                    <>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
+                        }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"
+                      >
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
+                        }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"
+                      >
+                        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </motion.button>
+                    </>
+                  )}
+
+                  {/* Кнопки управления */}
+                  <div className="absolute top-4 right-4 flex gap-2">
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      onClick={() => setIsZoomed(false)}
+                      className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </motion.button>
+                  </div>
+
+                  {/* Счетчик изображений */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium">
+                    {currentImageIndex + 1} / {product.images.length}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Характеристики на всю ширину */}
           <motion.div
