@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface ResizableTableProps {
   specifications: Record<string, string>;
@@ -9,7 +9,7 @@ const ResizableTable: React.FC<ResizableTableProps> = ({ specifications }) => {
   const [isResizing, setIsResizing] = useState(false);
   const [startX, setStartX] = useState(0);
   const [startWidth, setStartWidth] = useState(0);
-  const [showAll, setShowAll] = useState(false);
+  const [showAll, setShowAll] = useState(true);
   const firstColumnRef = useRef<HTMLTableCellElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
 
@@ -84,45 +84,59 @@ const ResizableTable: React.FC<ResizableTableProps> = ({ specifications }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {visibleEntries.map(([key, value], index) => (
-              <motion.tr
-                key={key}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.03 }}
-                className={`group transition-colors duration-150 ${
-                  index % 2 === 0 
-                    ? 'hover:bg-gray-100/80' 
-                    : 'bg-gray-100/50 hover:bg-gray-100/80'
-                }`}
-              >
-                <td className="px-4 py-3 text-gray-600 group-hover:text-primary-600 transition-colors whitespace-normal break-words align-top text-center">
-                  {key}
-                </td>
-                <td className="px-4 py-3 text-gray-800 whitespace-normal break-words align-top text-center">
-                  {value}
-                </td>
-              </motion.tr>
-            ))}
+            <AnimatePresence initial={false}>
+              {visibleEntries.map(([key, value], index) => (
+                <motion.tr
+                  key={key}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{
+                    duration: 0.3,
+                    ease: [0.04, 0.62, 0.23, 0.98]
+                  }}
+                  className={`group transition-colors duration-150 ${
+                    index % 2 === 0 
+                      ? 'hover:bg-gray-100/80' 
+                      : 'bg-gray-100/50 hover:bg-gray-100/80'
+                  }`}
+                >
+                  <motion.td 
+                    className="px-4 py-3 text-gray-600 group-hover:text-primary-600 transition-colors whitespace-normal break-words align-top text-center"
+                  >
+                    {key}
+                  </motion.td>
+                  <motion.td 
+                    className="px-4 py-3 text-gray-800 group-hover:text-primary-600 whitespace-normal break-words align-top text-center transition-colors"
+                  >
+                    {value}
+                  </motion.td>
+                </motion.tr>
+              ))}
+            </AnimatePresence>
           </tbody>
         </table>
 
         {hasMore && (
           <div className="p-4 border-t border-gray-200">
-            <button
+            <motion.button
               onClick={() => setShowAll(!showAll)}
               className="w-full flex items-center justify-center gap-2 text-primary-600 hover:text-primary-700 transition-colors"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
             >
               <span>{showAll ? 'Показать меньше' : `Показать все (${entries.length})`}</span>
-              <svg
-                className={`w-5 h-5 transform transition-transform ${showAll ? 'rotate-180' : ''}`}
+              <motion.svg
+                className="w-5 h-5"
+                animate={{ rotate: showAll ? 180 : 0 }}
+                transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+              </motion.svg>
+            </motion.button>
           </div>
         )}
       </div>

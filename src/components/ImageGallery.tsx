@@ -48,8 +48,25 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
     setIsDragging(false);
   };
 
+  const handleImageNavigation = (direction: 'prev' | 'next', e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    const currentImageIndex = images.findIndex(img => img === selectedImage);
+    if (direction === 'prev') {
+      const newIndex = (currentImageIndex - 1 + images.length) % images.length;
+      setSelectedImage(images[newIndex]);
+    } else {
+      const newIndex = (currentImageIndex + 1) % images.length;
+      setSelectedImage(images[newIndex]);
+    }
+    // Сброс зума и позиции при смене изображения в модальном режиме
+    if (isZoomed) {
+      setScale(1);
+      setPosition({ x: 0, y: 0 });
+    }
+  };
+
   const handleModalClick = (e: React.MouseEvent) => {
-    if (!hasMoved) {
+    if (!hasMoved && e.target === e.currentTarget) {
       toggleZoom();
     }
   };
@@ -63,16 +80,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
 
   const currentImageIndex = images.findIndex(img => img === selectedImage);
   
-  const selectPreviousImage = () => {
-    const newIndex = (currentImageIndex - 1 + images.length) % images.length;
-    setSelectedImage(images[newIndex]);
-  };
-
-  const selectNextImage = () => {
-    const newIndex = (currentImageIndex + 1) % images.length;
-    setSelectedImage(images[newIndex]);
-  };
-
   return (
     <div className="w-full">
       {/* Основное изображение */}
@@ -125,7 +132,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
             </div>
             <motion.button
               whileHover={{ scale: 1.1 }}
-              onClick={selectPreviousImage}
+              onClick={(e) => handleImageNavigation('prev', e)}
               className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/80 hover:bg-white rounded-full text-gray-700 hover:text-primary-600 transition-all"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,7 +141,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
-              onClick={selectNextImage}
+              onClick={(e) => handleImageNavigation('next', e)}
               className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/80 hover:bg-white rounded-full text-gray-700 hover:text-primary-600 transition-all"
             >
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -192,11 +199,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      selectPreviousImage();
-                    }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
+                    onClick={(e) => handleImageNavigation('prev', e)}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"
                   >
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -204,11 +208,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
                   </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      selectNextImage();
-                    }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
+                    onClick={(e) => handleImageNavigation('next', e)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-10"
                   >
                     <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -217,15 +218,27 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, title }) => {
                 </>
               )}
 
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                onClick={toggleZoom}
-                className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </motion.button>
+              {/* Кнопки управления */}
+              <div className="absolute top-4 right-4 flex gap-2">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  onClick={toggleZoom}
+                  className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => document.exitFullscreen()}
+                  className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9L4 4m0 0l5 5m-5-5v6m16-6l-5 5m5-5v6m0 6l-5-5m5 5h-6m-6 0l5-5m-5 5v-6" />
+                  </svg>
+                </motion.button>
+              </div>
             </div>
           </motion.div>
         )}
