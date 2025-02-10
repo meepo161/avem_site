@@ -57,7 +57,7 @@ const solutions = [
   {
     title: 'Измерительное оборудование',
     description: 'Широкий спектр приборов для измерения электрических параметров',
-    image: '/images/products/avem3.png',
+    image: '/images/products/ikas (1).jpg',
     link: '/products?category=measuring',
     categoryId: 'measuring'
   },
