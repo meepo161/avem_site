@@ -8,6 +8,9 @@ const nextConfig = {
     locales: ['ru'],
     defaultLocale: 'ru',
   },
+  env: {
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+  },
 };
 
-module.exports = nextConfig; 
+export default nextConfig; 
