@@ -172,12 +172,221 @@ const maxFormData = {
   additionalTests: 'Требуется полный комплекс обучения персонала, пусконаладочные работы, интеграция со SCADA-системой предприятия, расширенная гарантия на 3 года'
 };
 
+const minimalFormData = {
+  organization: 'ИП Петров',
+  contactPerson: 'Петров П.П.',
+  contactDetails: 'petrov@mail.ru, +7 900 123-45-67',
+  organizationType: 'customer',
+  deliveryDate: new Date().toISOString().split('T')[0],
+  norms: ['ГОСТ 11828-86'],
+  constructionFeatures: ['На лапах'],
+  kspemMachines: [
+    {
+      type: 'Асинхронные двигатели',
+      power: '15',
+      voltage: '380',
+      speed: '1500',
+      excitationUI: 'Не требуется'
+    }
+  ],
+  regulationMethods: ['Прямое включение в сеть'],
+  power: '20 кВт',
+  area: '20 м²',
+  mobile: 'Стационарный',
+  accuracy: '0.5%',
+  tests: [
+    'Измерение сопротивления изоляции обмоток относительно корпуса и между обмотками',
+    'Испытание электрической прочности изоляции обмотки относительно корпуса и между обмотками'
+  ]
+};
+
+const mediumAsyncFormData = {
+  organization: 'АО Электромотор',
+  contactPerson: 'Сидоров Алексей Иванович',
+  contactDetails: 'sidorov@electromotor.ru, +7 495 555-77-88',
+  organizationType: 'manufacturer',
+  deliveryDate: new Date().toISOString().split('T')[0],
+  norms: [
+    'ГОСТ 11828-86',
+    'ГОСТ 7217-87',
+    'ГОСТ Р 51689-2000'
+  ],
+  constructionFeatures: [
+    'На лапах',
+    'Фланцевые',
+    'Вертикальные'
+  ],
+  kspemMachines: [
+    {
+      type: 'Асинхронные двигатели',
+      power: '30',
+      voltage: '380',
+      speed: '1500',
+      excitationUI: 'Не требуется'
+    },
+    {
+      type: 'Асинхронные двигатели',
+      power: '55',
+      voltage: '380',
+      speed: '3000',
+      excitationUI: 'Не требуется'
+    }
+  ],
+  regulationMethods: [
+    'Плавный регулируемый',
+    'Прямое включение в сеть'
+  ],
+  power: '60 кВт',
+  area: '30 м²',
+  mobile: 'Стационарный',
+  accuracy: '0.2%',
+  tests: [
+    'Измерение сопротивления изоляции обмоток относительно корпуса и между обмотками',
+    'Определение тока и потерь холостого хода с измерением скорости вращения',
+    'Проверка уровня вибрации',
+    'Испытания под нагрузкой',
+    'Определение КПД'
+  ]
+};
+
+const highVoltageFormData = {
+  organization: 'ООО ВысокоВольтМаш',
+  contactPerson: 'Кузнецов Владимир Петрович',
+  contactDetails: 'kuznetsov@hvmash.ru, +7 812 999-00-11',
+  organizationType: 'manufacturer',
+  deliveryDate: new Date().toISOString().split('T')[0],
+  norms: [
+    'ГОСТ 11828-86',
+    'ГОСТ Р (МЭК 60034-1-2014)',
+    'ГОСТ 10169-77',
+    'EN 60204-1'
+  ],
+  constructionFeatures: [
+    'На лапах с фланцем',
+    'Цилиндрический вал'
+  ],
+  kspemMachines: [
+    {
+      type: 'Синхронные двигатели',
+      power: '800',
+      voltage: '6000',
+      speed: '3000',
+      excitationUI: '110В, 12А'
+    },
+    {
+      type: 'Синхронные генераторы',
+      power: '1500',
+      voltage: '10000',
+      speed: '3000',
+      excitationUI: '110В, 18А'
+    }
+  ],
+  regulationMethods: [
+    'Плавный регулируемый',
+    'Ступенчатый'
+  ],
+  power: '2000 кВт',
+  area: '100 м²',
+  mobile: 'Стационарный',
+  accuracy: '0.1%',
+  tests: [
+    'Измерение сопротивления изоляции обмоток относительно корпуса и между обмотками',
+    'Испытание электрической прочности изоляции обмотки относительно корпуса и между обмотками',
+    'Определение тока и потерь холостого хода с измерением скорости вращения',
+    'Испытание на нагрев',
+    'Определение КПД',
+    'Проверка уровня вибрации',
+    'Проверка уровня шума'
+  ]
+};
+
+const labFormData = {
+  organization: 'НИИ Электротехники',
+  contactPerson: 'Морозова Елена Сергеевна',
+  contactDetails: 'morozova@niiel.ru, +7 383 222-33-44',
+  organizationType: 'laboratory',
+  deliveryDate: new Date().toISOString().split('T')[0],
+  norms: [
+    'ГОСТ 11828-86',
+    'ГОСТ 53472-2009',
+    'ГОСТ 7217-87',
+    'ГОСТ 31606-2012',
+    'ГОСТ 20815-93'
+  ],
+  constructionFeatures: [
+    'На лапах',
+    'Фланцевые',
+    'Вертикальные'
+  ],
+  kspemMachines: [
+    {
+      type: 'Асинхронные двигатели',
+      power: '45',
+      voltage: '380',
+      speed: '1500',
+      excitationUI: 'Не требуется'
+    },
+    {
+      type: 'Синхронные двигатели',
+      power: '200',
+      voltage: '6000',
+      speed: '3000',
+      excitationUI: '110В, 8А'
+    },
+    {
+      type: 'Двигатели постоянного тока',
+      power: '30',
+      voltage: '440',
+      speed: '1000',
+      excitationUI: '220В, 2А'
+    }
+  ],
+  regulationMethods: [
+    'Плавный регулируемый',
+    'Ступенчатый',
+    'Прямое включение в сеть'
+  ],
+  power: '250 кВт',
+  area: '80 м²',
+  mobile: 'Передвижной',
+  accuracy: '0.05%',
+  tests: [
+    'Измерение сопротивления изоляции обмоток относительно корпуса и между обмотками',
+    'Измерение сопротивления обмоток при постоянном токе в практически холодном состоянии',
+    'Определение тока и потерь холостого хода с измерением скорости вращения',
+    'Определение тока и потерь короткого замыкания',
+    'Проверка уровня вибрации',
+    'Испытания под нагрузкой',
+    'Определение КПД',
+    'Определение коэффициента мощности',
+    'Проверка уровня шума',
+    'Определения момента инерции вращающихся частей'
+  ],
+  additionalTests: 'Требуется калибровка измерительного оборудования, протоколы испытаний с метрологической аттестацией'
+};
+
 const runTest = async () => {
   console.log('Начало тестирования опросного листа КСПЭМ...\n');
   
-  console.log('=== Тест: Максимальное заполнение опросного листа ===\n');
-  const success = await sendForm(maxFormData);
-  console.log(`\nРезультат: ${success ? '✅ Успешно' : '❌ Ошибка'}`);
+  console.log('=== Тест 1: Минимальное заполнение опросного листа ===\n');
+  let success = await sendForm(minimalFormData);
+  console.log(`\nРезультат теста 1: ${success ? '✅ Успешно' : '❌ Ошибка'}`);
+  
+  console.log('\n=== Тест 2: Среднее заполнение (асинхронные машины) ===\n');
+  success = await sendForm(mediumAsyncFormData);
+  console.log(`\nРезультат теста 2: ${success ? '✅ Успешно' : '❌ Ошибка'}`);
+  
+  console.log('\n=== Тест 3: Высоковольтные машины ===\n');
+  success = await sendForm(highVoltageFormData);
+  console.log(`\nРезультат теста 3: ${success ? '✅ Успешно' : '❌ Ошибка'}`);
+  
+  console.log('\n=== Тест 4: Испытательная лаборатория ===\n');
+  success = await sendForm(labFormData);
+  console.log(`\nРезультат теста 4: ${success ? '✅ Успешно' : '❌ Ошибка'}`);
+  
+  console.log('\n=== Тест 5: Максимальное заполнение опросного листа ===\n');
+  success = await sendForm(maxFormData);
+  console.log(`\nРезультат теста 5: ${success ? '✅ Успешно' : '❌ Ошибка'}`);
   
   console.log('\nТестирование завершено');
 };

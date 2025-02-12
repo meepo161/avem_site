@@ -4,6 +4,9 @@ import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 
+// Импортируем компонент формы ВИУ-100Р
+import { VIU100RForm } from './components/forms/VIU100RForm';
+
 type ConfigStep = {
   title: string;
   options: {
@@ -50,7 +53,6 @@ interface FormState {
     power: string;
     voltage: string;
     speed: string;
-    excitationUI?: string;
   }>;
   tests: string[];
   kspemMachines: Array<{
@@ -62,10 +64,11 @@ interface FormState {
   }>;
   kspadMachines: Array<{
     type: string;
-    phaseRotor: string;
     power: string;
     voltage: string;
     speed: string;
+    phaseRotor: string;
+    coolingType: string;
   }>;
   ksptTransformers: Array<{
     type: string;
@@ -80,6 +83,7 @@ interface FormState {
   transformerTypes: string[];
   automationLevels: string[];
   additionalTests: string;
+  productId?: 'KSPEM' | 'KSPAD' | 'KSPT';
 }
 
 const configurationSteps: ConfigStep[] = [
@@ -1003,17 +1007,216 @@ const ProductResult = ({
         {product.id === 'kspad' && (
           <>
             <div className="space-y-4">
-              <h5 className="text-sm font-medium text-gray-700 mb-2">Перечень опытов</h5>
-              <div className="grid grid-cols-1 gap-4">
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Испытания должны проводиться согласно нормативам</h5>
+              <div className="grid grid-cols-1 gap-2">
                 {[
-                  'Измерение сопротивления изоляции обмоток',
-                  'Испытание электрической прочности изоляции',
-                  'Определение параметров холостого хода',
-                  'Проверка вибрации и шума',
-                  'Тестирование системы охлаждения',
-                  'Проверка работы под нагрузкой'
+                  'ГОСТ 7217-87',
+                  'ГОСТ Р 51689-2000',
+                  'ГОСТ 11828-86',
+                  'ГОСТ 10169-77',
+                  'ГОСТ 11929-87',
+                  'ГОСТ 183-74',
+                  'ГОСТ IEC 60034-1-2014',
+                  'ГОСТ IEC 60034-2-1-2017'
+                ].map((norm, i) => (
+                  <label key={i} className="flex items-center p-2 border rounded-lg hover:border-primary-400 transition-colors">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-4 w-4 text-primary-600"
+                      checked={formState.norms.includes(norm)}
+                      onChange={(e) => setFormState(prev => ({
+                        ...prev,
+                        norms: e.target.checked ? [...prev.norms, norm] : prev.norms.filter(n => n !== norm)
+                      }))}
+                    />
+                    <span className="ml-2 text-sm text-gray-700">{norm}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Конструктивные особенности двигателей</h5>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  'На лапах', 'Фланцевые', 'На лапах с фланцем',
+                  'Вертикальные', 'С повышенным скольжением', 'С фазным ротором',
+                  'С короткозамкнутым ротором', 'Многоскоростные', 'Встраиваемые',
+                  'С принудительным охлаждением'
+                ].map((feature, i) => (
+                  <label key={i} className="flex items-center p-2 border rounded-lg hover:border-primary-400 transition-colors">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-4 w-4 text-primary-600"
+                      checked={formState.constructionFeatures.includes(feature)}
+                      onChange={(e) => setFormState(prev => ({
+                        ...prev,
+                        constructionFeatures: e.target.checked
+                          ? [...prev.constructionFeatures, feature]
+                          : prev.constructionFeatures.filter(f => f !== feature)
+                      }))}
+                    />
+                    <span className="ml-2 text-sm text-gray-700">{feature}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Параметры испытуемых двигателей</h5>
+              {[
+                { type: 'Трехфазные с короткозамкнутым ротором' },
+                { type: 'Трехфазные с фазным ротором' },
+                { type: 'Однофазные конденсаторные' }
+              ].map((category, index) => (
+                <div key={index} className="p-4 border rounded-lg">
+                  <h6 className="font-medium mb-3">{category.type}</h6>
+                  <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <input
+                      type="text"
+                      placeholder="Мощность, кВт"
+                      className="p-2 border rounded"
+                      value={formState.kspadMachines[index]?.power || ''}
+                      onChange={(e) => {
+                        const newMachines = [...formState.kspadMachines];
+                        if (!newMachines[index]) {
+                          newMachines[index] = { type: category.type, power: '', voltage: '', speed: '', phaseRotor: '', coolingType: '' };
+                        }
+                        newMachines[index] = { ...newMachines[index], type: category.type, power: e.target.value };
+                        setFormState(prev => ({...prev, kspadMachines: newMachines}));
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Напряжение, В"
+                      className="p-2 border rounded"
+                      value={formState.kspadMachines[index]?.voltage || ''}
+                      onChange={(e) => {
+                        const newMachines = [...formState.kspadMachines];
+                        if (!newMachines[index]) {
+                          newMachines[index] = { type: category.type, power: '', voltage: '', speed: '', phaseRotor: '', coolingType: '' };
+                        }
+                        newMachines[index] = { ...newMachines[index], type: category.type, voltage: e.target.value };
+                        setFormState(prev => ({...prev, kspadMachines: newMachines}));
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Скорость, об/мин"
+                      className="p-2 border rounded"
+                      value={formState.kspadMachines[index]?.speed || ''}
+                      onChange={(e) => {
+                        const newMachines = [...formState.kspadMachines];
+                        if (!newMachines[index]) {
+                          newMachines[index] = { type: category.type, power: '', voltage: '', speed: '', phaseRotor: '', coolingType: '' };
+                        }
+                        newMachines[index] = { ...newMachines[index], type: category.type, speed: e.target.value };
+                        setFormState(prev => ({...prev, kspadMachines: newMachines}));
+                      }}
+                    />
+                    <select
+                      className="p-2 border rounded"
+                      value={formState.kspadMachines[index]?.phaseRotor || ''}
+                      onChange={(e) => {
+                        const newMachines = [...formState.kspadMachines];
+                        if (!newMachines[index]) {
+                          newMachines[index] = { type: category.type, power: '', voltage: '', speed: '', phaseRotor: '', coolingType: '' };
+                        }
+                        newMachines[index] = { ...newMachines[index], type: category.type, phaseRotor: e.target.value };
+                        setFormState(prev => ({...prev, kspadMachines: newMachines}));
+                      }}
+                    >
+                      <option value="">Тип ротора</option>
+                      <option value="короткозамкнутый">Короткозамкнутый</option>
+                      <option value="фазный">Фазный</option>
+                    </select>
+                    <select
+                      className="p-2 border rounded"
+                      value={formState.kspadMachines[index]?.coolingType || ''}
+                      onChange={(e) => {
+                        const newMachines = [...formState.kspadMachines];
+                        if (!newMachines[index]) {
+                          newMachines[index] = { type: category.type, power: '', voltage: '', speed: '', phaseRotor: '', coolingType: '' };
+                        }
+                        newMachines[index] = { ...newMachines[index], type: category.type, coolingType: e.target.value };
+                        setFormState(prev => ({...prev, kspadMachines: newMachines}));
+                      }}
+                    >
+                      <option value="">Тип охлаждения</option>
+                      <option value="IC411">IC411 (самоохлаждение)</option>
+                      <option value="IC416">IC416 (принудительное)</option>
+                      <option value="IC418">IC418 (независимое)</option>
+                    </select>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-4">
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Способы регулировки частоты вращения</h5>
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  'Преобразователь частоты',
+                  'Изменение числа пар полюсов',
+                  'Реостатное регулирование',
+                  'Импульсное регулирование',
+                  'Прямой пуск',
+                  'Плавный пуск'
+                ].map((method, i) => (
+                  <label key={i} className="flex items-center p-2 border rounded-lg hover:border-primary-400 transition-colors">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-4 w-4 text-primary-600"
+                      checked={formState.regulationMethods.includes(method)}
+                      onChange={(e) => setFormState(prev => ({
+                        ...prev,
+                        regulationMethods: e.target.checked
+                          ? [...prev.regulationMethods, method]
+                          : prev.regulationMethods.filter(m => m !== method)
+                      }))}
+                    />
+                    <span className="ml-2 text-sm text-gray-700">{method}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Перечень испытаний</h5>
+              <div className="grid grid-cols-1 gap-2">
+                {[
+                  'Измерение сопротивления изоляции обмоток относительно корпуса и между обмотками',
+                  'Испытание электрической прочности изоляции обмоток относительно корпуса и между обмотками',
+                  'Измерение сопротивления обмоток при постоянном токе в практически холодном состоянии',
+                  'Проверка правильности соединения выводных концов и обмоток',
+                  'Определение тока и потерь холостого хода',
+                  'Определение тока и потерь короткого замыкания',
+                  'Определение рабочих характеристик',
+                  'Определение КПД прямым методом',
+                  'Определение КПД косвенным методом',
+                  'Определение коэффициента мощности',
+                  'Определение скольжения',
+                  'Определение максимального и минимального вращающих моментов',
+                  'Определение начального пускового момента',
+                  'Определение начального пускового тока',
+                  'Определение динамического момента инерции ротора',
+                  'Определение механических потерь',
+                  'Определение добавочных потерь',
+                  'Испытание на нагревание',
+                  'Испытание при повышенной частоте вращения',
+                  'Определение вибрационных характеристик',
+                  'Определение уровня шума',
+                  'Проверка степени защиты',
+                  'Измерение сопротивления изоляции подшипников',
+                  'Измерение температуры подшипниковых узлов',
+                  'Проверка работы системы принудительного охлаждения',
+                  'Проверка датчиков температурной защиты',
+                  'Определение температуры обмоток и частей машины',
+                  'Испытание на устойчивость к механическим воздействиям',
+                  'Испытание на герметичность',
+                  'Проверка качества балансировки ротора'
                 ].map((test, i) => (
-                  <label key={i} className="flex items-start w-full p-2 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <label key={i} className="flex items-start p-2 border rounded-lg hover:bg-gray-50 transition-colors">
                     <input
                       type="checkbox"
                       className="form-checkbox h-4 w-4 text-primary-600 mt-1"
@@ -1028,6 +1231,55 @@ const ProductResult = ({
                 ))}
               </div>
             </div>
+
+            <div className="space-y-4">
+              <h5 className="text-sm font-medium text-gray-700 mb-2">Технические требования к стенду</h5>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Потребляемая мощность</label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded"
+                    placeholder="кВт"
+                    value={formState.power}
+                    onChange={(e) => setFormState(prev => ({...prev, power: e.target.value}))}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Занимаемая площадь</label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded"
+                    placeholder="м²"
+                    value={formState.area}
+                    onChange={(e) => setFormState(prev => ({...prev, area: e.target.value}))}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Мобильность</label>
+                  <select
+                    className="w-full p-2 border rounded"
+                    value={formState.mobile}
+                    onChange={(e) => setFormState(prev => ({...prev, mobile: e.target.value}))}
+                  >
+                    <option value="">Выберите тип</option>
+                    <option value="Стационарный">Стационарный</option>
+                    <option value="Передвижной">Передвижной</option>
+                    <option value="Мобильный">Мобильный</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-600 mb-1">Точность измерений</label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded"
+                    placeholder="%"
+                    value={formState.accuracy}
+                    onChange={(e) => setFormState(prev => ({...prev, accuracy: e.target.value}))}
+                  />
+                </div>
+              </div>
+            </div>
           </>
         )}
 
@@ -1036,20 +1288,20 @@ const ProductResult = ({
             <div className="space-y-4">
               <h5 className="text-sm font-medium text-gray-700 mb-2">Тип трансформатора</h5>
               <div className="grid grid-cols-1 gap-2">
-                {['Сухой', 'Масляный', 'Элегазовый'].map((type, i) => (
+                {['Сухой', 'Масляный', 'Элегазовый'].map((transformerType, i) => (
                   <label key={i} className="flex items-center p-2 border rounded-lg hover:border-primary-400 transition-colors">
                     <input
                       type="checkbox"
                       className="form-checkbox h-4 w-4 text-primary-600"
-                      checked={formState.transformerTypes.includes(type)}
+                      checked={formState.transformerTypes.includes(transformerType)}
                       onChange={(e) => setFormState(prev => ({
                         ...prev,
                         transformerTypes: e.target.checked
-                          ? [...prev.transformerTypes, type]
-                          : prev.transformerTypes.filter(t => t !== type)
+                          ? [...prev.transformerTypes, transformerType]
+                          : prev.transformerTypes.filter(t => t !== transformerType)
                       }))}
                     />
-                    <span className="ml-2 text-sm text-gray-700">{type}</span>
+                    <span className="ml-2 text-sm text-gray-700">{transformerType}</span>
                   </label>
                 ))}
               </div>
@@ -1105,16 +1357,7 @@ const ProductResult = ({
                           coolingType: []
                         };
                       }
-                      const newCoolingTypes = [...newTransformers[0].coolingType];
-                      if (e.target.checked) {
-                        newCoolingTypes.push(type);
-                      } else {
-                        const index = newCoolingTypes.indexOf(type);
-                        if (index > -1) {
-                          newCoolingTypes.splice(index, 1);
-                        }
-                      }
-                      newTransformers[0].coolingType = newCoolingTypes;
+                      newTransformers[0].voltageClass = e.target.value;
                       setFormState(prev => ({...prev, ksptTransformers: newTransformers}));
                     }}
                   />
@@ -1382,97 +1625,9 @@ const ProductResult = ({
           </>
         )}
 
-        {/* Специфичные поля для ВИУ-35К */}
-        {product.id === 'viu35k' && (
-          <>
-            <div className="space-y-4">
-              <h5 className="text-sm font-medium text-gray-700 mb-2">Параметры испытуемых кабелей</h5>
-              <div className="grid grid-cols-1 gap-4">
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Тип кабеля</label>
-                  <div className="grid grid-cols-1 gap-2">
-                    {[
-                      'Силовые кабели с бумажной изоляцией',
-                      'Силовые кабели с пластмассовой изоляцией',
-                      'Силовые кабели с резиновой изоляцией',
-                      'Контрольные кабели',
-                      'Кабели связи'
-                    ].map((type, i) => (
-                      <label key={i} className="flex items-center p-2 border rounded-lg hover:border-primary-400 transition-colors">
-                        <input
-                          type="checkbox"
-                          className="form-checkbox h-4 w-4 text-primary-600"
-                          checked={formState.transformerTypes.includes(type)}
-                          onChange={(e) => setFormState(prev => ({
-                            ...prev,
-                            transformerTypes: e.target.checked
-                              ? [...prev.transformerTypes, type]
-                              : prev.transformerTypes.filter(t => t !== type)
-                          }))}
-                        />
-                        <span className="ml-2 text-sm text-gray-700">{type}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Номинальное напряжение кабелей</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {[
-                      '0.66 кВ', '1 кВ', '3 кВ', '6 кВ', '10 кВ', '15 кВ', '20 кВ', '35 кВ'
-                    ].map((voltage, i) => (
-                      <label key={i} className="flex items-center p-2 border rounded-lg hover:border-primary-400 transition-colors">
-                        <input
-                          type="checkbox"
-                          className="form-checkbox h-4 w-4 text-primary-600"
-                          checked={formState.regulationMethods.includes(voltage)}
-                          onChange={(e) => setFormState(prev => ({
-                            ...prev,
-                            regulationMethods: e.target.checked
-                              ? [...prev.regulationMethods, voltage]
-                              : prev.regulationMethods.filter(v => v !== voltage)
-                          }))}
-                        />
-                        <span className="ml-2 text-sm text-gray-700">{voltage}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm text-gray-600 mb-1">Требуемые виды испытаний</label>
-                  <div className="grid grid-cols-1 gap-2">
-                    {[
-                      'Испытание повышенным напряжением постоянного тока',
-                      'Испытание повышенным напряжением переменного тока',
-                      'Измерение сопротивления изоляции',
-                      'Измерение тангенса угла диэлектрических потерь',
-                      'Испытание оболочки кабеля',
-                      'Определение целостности жил и фазировки',
-                      'Измерение электрической емкости',
-                      'Измерение сопротивления жил постоянному току',
-                      'Определение длины кабеля',
-                      'Определение места повреждения оболочки'
-                    ].map((test, i) => (
-                      <label key={i} className="flex items-start p-2 border rounded-lg hover:bg-gray-50 transition-colors">
-                        <input
-                          type="checkbox"
-                          className="form-checkbox h-4 w-4 text-primary-600 mt-1"
-                          checked={formState.tests.includes(test)}
-                          onChange={(e) => setFormState(prev => ({
-                            ...prev,
-                            tests: e.target.checked ? [...prev.tests, test] : prev.tests.filter(t => t !== test)
-                          }))}
-                        />
-                        <span className="ml-2 text-sm text-gray-600 leading-tight">{test}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
+        {/* Специфичные поля для ВИУ-100Р */}
+        {product.id === 'viu-100r' && (
+          <VIU100RForm formState={formState} setFormState={setFormState} />
         )}
 
         {/* Дополнительные требования для всех продуктов */}
@@ -1651,7 +1806,7 @@ export default function ConfiguratorPage() {
     machines: [],
     tests: [],
     kspemMachines: [],
-    kspadMachines: [{ type: 'Трехфазные', phaseRotor: 'Да', power: '', voltage: '', speed: '' }],
+    kspadMachines: [{ type: 'Трехфазные', phaseRotor: 'Да', power: '', voltage: '', speed: '', coolingType: '' }],
     ksptTransformers: [{
       type: 'Силовой',
       powerRange: '',
@@ -1677,16 +1832,52 @@ export default function ConfiguratorPage() {
     setSubmitError(null);
 
     try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formState),
-      });
+      let response;
+      
+      if (formState.productId === 'KSPEM') {
+        response = await fetch('/api/submit-kspem-form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formState),
+        });
+      } else if (formState.productId === 'KSPAD') {
+        response = await fetch('/api/submit-kspad-form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formState),
+        });
+      } else {
+        response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...formState,
+            selectedProduct
+          }),
+        });
+      }
 
       if (!response.ok) {
         throw new Error('Ошибка при отправке формы');
+      }
+
+      // Если это запрос на генерацию документа Word, обрабатываем ответ как blob
+      if (['KSPEM', 'KSPAD'].includes(formState.productId || '') || selectedProduct?.id === 'viu-100r') {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${formState.productId || selectedProduct?.id || 'form'}_form.docx`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
       }
 
       setIsSubmitted(true);
