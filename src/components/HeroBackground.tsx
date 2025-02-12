@@ -1,21 +1,17 @@
 import React from 'react';
 import Image from 'next/image';
 
-interface HeroBackgroundProps {
-  image: string;
-}
-
-const HeroBackground: React.FC<HeroBackgroundProps> = ({ image }) => {
+const HeroBackground: React.FC<{ image: string }> = ({ image }) => {
   return (
-    <div className="relative w-full h-full">
+    <div className="absolute inset-0">
       <Image
         src={image}
         alt="Background"
         fill
-        className="object-cover"
-        priority
+        className="object-cover object-center"
+        quality={80}
       />
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-gray-800/60" />
     </div>
   );
 };

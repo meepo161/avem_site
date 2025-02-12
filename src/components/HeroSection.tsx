@@ -3,27 +3,52 @@ import { motion } from 'framer-motion';
 import PrimaryButton from './buttons/PrimaryButton';
 import SecondaryButton from './buttons/SecondaryButton';
 import { useRouter } from 'next/router';
+import HeroBackground from '@/components/HeroBackground';
 
-const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  title: string;
+  subtitle?: string;
+  image?: string;
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({ title, subtitle, image = '/images/products/kspem (7).jpg' }) => {
   const router = useRouter();
 
   return (
-    <div className="w-full min-h-[calc(100vh-64px)] relative flex items-center">
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800" />
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20">
+    <section className="relative h-[40vh] md:min-h-[300px] flex items-center">
+      <div className="absolute inset-0 z-0">
+        <HeroBackground image={image} />
+      </div>
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="w-full max-w-4xl mx-auto text-center"
+          className="max-w-4xl mx-auto text-center"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-white leading-tight">
-            Инновационные решения для электротехнической промышленности
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 leading-relaxed">
-            Разрабатываем и производим современное оборудование для тестирования и диагностики электрических агрегатов любой сложности
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-5xl font-bold text-white mb-4"
+          >
+            {title}
+          </motion.h1>
+          {subtitle && (
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-lg md:text-xl text-white/80"
+            >
+              {subtitle}
+            </motion.p>
+          )}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+          >
             <PrimaryButton 
               onClick={() => router.push('/products')}
               className="w-full sm:w-auto"
@@ -36,10 +61,10 @@ const HeroSection: React.FC = () => {
             >
               Получить консультацию
             </SecondaryButton>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

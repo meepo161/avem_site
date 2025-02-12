@@ -8,7 +8,8 @@ export const categories: Category[] = [
       { id: 'voltage', name: 'Вольтметры' },
       { id: 'current', name: 'Амперметры' },
       { id: 'resistance', name: 'Приборы измерения сопротивления' },
-      { id: 'high-voltage', name: 'Высоковольтные измерительные приборы' }
+      { id: 'high-voltage', name: 'Высоковольтные измерительные приборы' },
+      { id: 'universal', name: 'Универсальные' }
     ]
   },
   {
@@ -50,8 +51,8 @@ export const categories: Category[] = [
 
 export const products: Product[] = [
   {
-    id: 1,
-    name: 'Вольтметр АВЭМ-3',
+    id: 'avem-3',
+    name: 'АВЭМ-3',
     categoryId: 'measuring',
     subcategoryId: 'voltage',
     description: `Приборы измерительные АВЭМ-3 предназначены для:
@@ -87,8 +88,8 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 2,
-    name: 'Вольтметр АВЭМ-4',
+    id: 'avem-4',
+    name: 'АВЭМ-4',
     categoryId: 'measuring',
     subcategoryId: 'voltage',
     description: `Приборы измерительные АВЭМ-4 предназначены для:
@@ -132,7 +133,7 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 3,
+    id: 'avem-7',
     name: 'Амперметр АВЭМ-7',
     categoryId: 'measuring',
     subcategoryId: 'current',
@@ -172,7 +173,7 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 4,
+    id: 'ikas-10',
     name: 'Омметр ИКАС-10',
     categoryId: 'measuring',
     subcategoryId: 'resistance',
@@ -225,7 +226,7 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 5,
+    id: 'avem-9',
     name: 'Мегаомметр АВЭМ-9',
     categoryId: 'measuring',
     subcategoryId: 'resistance',
@@ -246,7 +247,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 6,
+    id: 'kvvm',
     name: 'Киловольтметр КВМ',
     categoryId: 'measuring',
     subcategoryId: 'high-voltage',
@@ -267,7 +268,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 7,
+    id: 'livs',
     name: 'Лаборатория испытательная высоковольтная стационарная (ЛИВС)',
     categoryId: 'testing',
     subcategoryId: 'high-voltage',
@@ -324,7 +325,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 8,
+    id: 'viu10k',
     name: 'Высоковольтная испытательная установка ВИУ-10К',
     categoryId: 'testing',
     subcategoryId: 'high-voltage',
@@ -369,7 +370,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 9,
+    id: 'viu35k',
     name: 'Высоковольтная испытательная установка ВИУ-35К',
     categoryId: 'testing',
     subcategoryId: 'high-voltage',
@@ -420,7 +421,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 10,
+    id: 'viu100',
     name: 'Высоковольтная испытательная установка ВИУ-100',
     categoryId: 'testing',
     subcategoryId: 'high-voltage',
@@ -464,7 +465,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 11,
+    id: 'viu100r',
     name: 'Высоковольтная испытательная установка ВИУ-100Р',
     categoryId: 'testing',
     subcategoryId: 'high-voltage',
@@ -512,7 +513,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 12,
+    id: 'kspad',
     name: 'Комплексный стенд проверки асинхронных двигателей КСПАД',
     categoryId: 'testing',
     subcategoryId: 'diagnostic',
@@ -563,7 +564,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 13,
+    id: 'kspem',
     name: 'Комплексный стенд проверки электрических машин КСПЭМ',
     categoryId: 'testing',
     subcategoryId: 'diagnostic',
@@ -625,7 +626,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 14,
+    id: 'tod-so10',
     name: 'Стол обмотчика электродвигателей ТОД-СО10',
     categoryId: 'testing',
     subcategoryId: 'diagnostic',
@@ -677,7 +678,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 15,
+    id: 'tod-so100',
     name: 'Стол обмотчика электродвигателей ТОД-СО100',
     categoryId: 'testing',
     subcategoryId: 'diagnostic',
@@ -727,7 +728,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 16,
+    id: 'tod-r100',
     name: 'Стойка для ремонта роторов ТОД-Р100',
     categoryId: 'testing',
     subcategoryId: 'diagnostic',
@@ -777,7 +778,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 17,
+    id: 'tod-sr100',
     name: 'Демонтажа полумуфт и подшипников ТОД-СР100',
     categoryId: 'testing',
     subcategoryId: 'diagnostic',
@@ -819,7 +820,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 18,
+    id: 'ikic',
     name: 'Стенд для испытания кабелей',
     categoryId: 'testing',
     subcategoryId: 'cable-testing',
@@ -862,7 +863,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 19,
+    id: 'kspt',
     name: 'Комплексный стенд проверки трансформаторов КСПТ',
     categoryId: 'testing',
     subcategoryId: 'transformer-testing',
@@ -914,7 +915,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 20,
+    id: 'ksitt',
     name: 'Комплексный стенд испытаний трансформаторов тока КСиТТ',
     categoryId: 'testing',
     subcategoryId: 'transformer-testing',
@@ -964,7 +965,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 21,
+    id: 'kstn',
     name: 'Комплексный стенд проверки трансформаторов напряжения КСТН',
     categoryId: 'testing',
     subcategoryId: 'transformer-testing',
@@ -1014,7 +1015,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 22,
+    id: 'kspm',
     name: 'Комплексный стенд проверки магнитопроводов КСПМ',
     categoryId: 'testing',
     subcategoryId: 'transformer-testing',
@@ -1061,7 +1062,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 23,
+    id: 'snim-600',
     name: 'Стенд нагрузочно-имитационный механический СНИМ-600',
     categoryId: 'testing',
     subcategoryId: 'mechanical-testing',
@@ -1103,7 +1104,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 24,
+    id: 'ikpr',
     name: 'Измеритель комплексных параметров радиоэлементов ИКПР',
     categoryId: 'testing',
     subcategoryId: 'electronic-testing',
@@ -1152,7 +1153,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 25,
+    id: 'ikpst',
     name: 'Комплексный стенд проверки силовых тиристоров ИКПСТ',
     categoryId: 'testing',
     subcategoryId: 'electronic-testing',
@@ -1197,7 +1198,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 26,
+    id: 'sdek',
     name: 'Стенд диагностики электронных компонентов СДЭК',
     categoryId: 'testing',
     subcategoryId: 'electronic-testing',
@@ -1243,7 +1244,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 27,
+    id: 'euru',
     name: 'Электромеханический усилитель рулевого управления ЭУРУ',
     categoryId: 'automotive',
     subcategoryId: 'steering',
@@ -1284,7 +1285,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 28,
+    id: 'sgu',
     name: 'Стартер-генераторная установка СГУ',
     categoryId: 'automotive',
     subcategoryId: 'diagnostics',
@@ -1326,29 +1327,11 @@ export const products: Product[] = [
     }
   },
   {
-    id: 29,
+    id: 'sum-1',
     name: 'Система управления и мониторинга SUM-1',
-    categoryId: 'automation',
-    subcategoryId: 'control-monitoring',
-    description: `Система управления и мониторинга SUM-1 предназначена для автоматизированного контроля и управления технологическими процессами.
-
-Система обеспечивает:
-• Сбор и обработку данных с датчиков и измерительных приборов
-• Управление исполнительными механизмами
-• Визуализацию технологического процесса
-• Архивирование данных и событий
-• Формирование отчетов и протоколов
-• Диагностику оборудования
-• Аварийную сигнализацию
-
-Преимущества системы:
-• Модульная архитектура
-• Масштабируемость
-• Высокая надежность
-• Простота обслуживания
-• Удаленный доступ
-• Интеграция с другими системами
-• Гибкая настройка под требования заказчика`,
+    categoryId: 'measuring',
+    subcategoryId: 'universal',
+    description: `Универсальная система для комплексных измерений...`,
     images: ['/images/products/sum-1 (1).jpg', '/images/products/sum-1 (2).jpg'],
     specifications: {
       'Напряжение питания': '220В ± 10%',
@@ -1375,7 +1358,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 30,
+    id: 'unm-10,5',
     name: 'Универсальный нагрузочный модуль УНМ-10,5',
     categoryId: 'load-devices',
     subcategoryId: 'universal',
@@ -1423,7 +1406,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 31,
+    id: 'un-200',
     name: 'Нагрузочный стенд УН-200',
     categoryId: 'load-devices',
     subcategoryId: 'specialized',
@@ -1470,7 +1453,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 32,
+    id: 'unm-630',
     name: 'Модуль нагрузочный УНМ-630',
     categoryId: 'load-devices',
     subcategoryId: 'universal',
@@ -1520,7 +1503,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 33,
+    id: 'unm-1750',
     name: 'Резистивно-реактивное нагрузочное устройство УНМ-1750',
     categoryId: 'load-devices',
     subcategoryId: 'universal-load',
@@ -1568,7 +1551,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 34,
+    id: 'unm-1000',
     name: 'Универсальный нагрузочный модуль УНМ-1000',
     categoryId: 'load-devices',
     subcategoryId: 'universal',
@@ -1618,7 +1601,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 35,
+    id: 'unm-20',
     name: 'Энергетическая нагрузочная система УНМ-20',
     categoryId: 'load-devices',
     subcategoryId: 'universal',
@@ -1666,7 +1649,7 @@ export const products: Product[] = [
     }
   },
   {
-    id: 1,
+    id: 'ksitt',
     name: 'КСИТТ',
     description: 'Комплекс средств измерительной техники транспортный',
     images: ['/images/products/ksitt (1).jpg'],
@@ -1700,7 +1683,7 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 20,
+    id: 'unm-20',
     name: 'УНМ-20',
     description: `Универсальный нагрузочный модуль УНМ-20 предназначен для проведения испытаний источников питания и другого энергетического оборудования.
     
@@ -1764,7 +1747,7 @@ export const products: Product[] = [
     ]
   },
   {
-    id: 4,
+    id: 'avem-4',
     name: 'АВЭМ-4',
     description: 'Прибор измерительный АВЭМ-4 предназначен для измерений напряжения постоянного и переменного тока, а также измерений частоты переменного тока.',
     images: ['/images/products/avem-4.jpg'],

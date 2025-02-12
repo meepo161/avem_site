@@ -17,7 +17,7 @@ export interface Document {
 }
 
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   description: string;
   images: string[];

@@ -33,6 +33,9 @@ const Header: React.FC = () => {
             <Link href="/products" className="text-gray-700 hover:text-primary-600 transition-colors">
               Продукция
             </Link>
+            <Link href="/configurator" className="text-gray-700 hover:text-primary-600 transition-colors">
+              Конфигуратор
+            </Link>
             <Link href="/certificates" className="text-gray-700 hover:text-primary-600 transition-colors">
               Сертификаты
             </Link>

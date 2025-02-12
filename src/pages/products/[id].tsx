@@ -409,7 +409,7 @@ export default function ProductPage({ product, category, subcategory }: ProductP
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = products.map((product) => ({
-    params: { id: product.id.toString() },
+    params: { id: product.id },
   }));
 
   return {
@@ -419,7 +419,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const product = products.find((p) => p.id.toString() === params?.id);
+  const product = products.find((p) => p.id === params?.id);
   
   if (!product) {
     return {

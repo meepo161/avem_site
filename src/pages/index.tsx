@@ -1,10 +1,348 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Layout from '@/components/layout/Layout';
 import Image from 'next/image';
 import Link from 'next/link';
 import HeroCarousel from '@/components/HeroCarousel';
 import { useRouter } from 'next/router';
+
+const clients = [
+  {
+    name: 'ООО филиал «АББ Электроинжиниринг»',
+    image: '/images/clients/abb.jpg',
+    bgColor: 'bg-red-50'
+  },
+  {
+    name: 'ОАО «ИНТЕР РАО-Электрогенерация» (филиал «Ивановские ПГУ»)',
+    image: '/images/clients/interrao.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: '«ПК «Новочеркасский Электровозостроительный Завод» («НЭВЗ»)',
+    image: '/images/clients/NVZ.jpg',
+    bgColor: 'bg-slate-50'
+  },
+  {
+    name: 'АО «Атомтехэнерго» для Белорусской АЭС',
+    image: '/images/clients/atech.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ОАО «Сургутнефтегаз»',
+    image: '/images/clients/surgutneftegas.png',
+    bgColor: 'bg-orange-50'
+  },
+  {
+    name: 'ОАО «Оренбургская Теплогенерирующая компания» Сакмарская ТЭЦ',
+    image: '/images/clients/orenburg.png',
+    bgColor: 'bg-orange-50'
+  },
+  {
+    name: 'ООО «Тольяттинский Трансформатор»',
+    image: '/images/clients/tt.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'АО «Авиаремонтный завод № 405»',
+    image: '/images/clients/arz404.jpg',
+    bgColor: 'bg-sky-50'
+  },
+  {
+    name: 'РОССЕТИ Филиала ПАО "Ленэнерго" "Санкт-Петербургские высоковольтные электрические сети"',
+    image: '/images/clients/lenenergo.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'РОССЕТИ Филиал ПАО «МРСК Северо-Запада» «Карелэнерго»',
+    image: '/images/clients/karelenergo.mrsksevzap.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'АО «Ковдорский ГОК» «ЕвроХим»',
+    image: '/images/clients/kovdor.jpg',
+    bgColor: 'bg-green-50'
+  },
+  {
+    name: 'ОАО «Энергетический институт им. Г.М. Кржижановского» (ОАО «ЭНИН»)',
+    image: '/images/clients/ENIN.jpg',
+    bgColor: 'bg-indigo-50'
+  },
+  {
+    name: 'ПАО «Юнипро» Сургутская ГРЭС-2',
+    image: '/images/clients/unipro.png',
+    bgColor: 'bg-red-50'
+  },
+  {
+    name: 'ООО «Транснефть-Балтика»',
+    image: '/images/clients/transneft-baltika.png',
+    bgColor: 'bg-red-50'
+  },
+  {
+    name: 'ООО «СВЭЛ-Измерительные трансформаторы»',
+    image: '/images/clients/SVEL.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ОАО «Томскгазпром»',
+    image: '/images/clients/tomskgazprom.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО НПП «Электромаш»',
+    image: '/images/clients/electromash.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'АО «Концерн Росэнергоатом» «Белоярская Атомная Станция»',
+    image: '/images/clients/rosenergoatom.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Хувдянь-Тенинская ТЭЦ»',
+    image: '/images/clients/ht-tpp.jpg',
+    bgColor: 'bg-gray-50'
+  },
+  {
+    name: 'ООО «Судостроительный завод «ЗАЛИВ»',
+    image: '/images/clients/zaliv.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'Муниципальное унитарное предприятие г.Ижевска «Ижевские электрические сети»',
+    image: '/images/clients/Elektr.seti.jpg',
+    bgColor: 'bg-yellow-50'
+  },
+  {
+    name: 'ООО «Трансформатор сервис»',
+    image: '/images/clients/transformator_service.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ОАО «Магнитогорский металлургический комбинат»',
+    image: '/images/clients/mmk.gif',
+    bgColor: 'bg-orange-50'
+  },
+  {
+    name: 'ООО «Дивитай»',
+    image: '/images/clients/divitai.jpg',
+    bgColor: 'bg-purple-50'
+  },
+  {
+    name: 'ОАО «Самарский Трансформатор»',
+    image: '/images/clients/samara.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'СП ОАО «Чирчикский трансформаторный завод»',
+    image: '/images/clients/chtz.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ОАО «Авиаагрегат»',
+    image: '/images/clients/agregat.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ГЭП «Вологдаоблкоммун-энерго»',
+    image: '/images/clients/vologda.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Электрофизика»',
+    image: '/images/clients/electrofizika.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Электронприбор»',
+    image: '/images/clients/electronpribor.gif',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Завод трансформаторов и магнитопроводов»',
+    image: '/images/clients/ZTM.jpg',
+    bgColor: 'bg-gray-50'
+  },
+  {
+    name: 'ООО «ПО «Энергоспецтехника»',
+    image: '/images/clients/esteh.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО ТЭЦ «Энергогарант» для нужд Белоярской АЭС',
+    image: '/images/clients/energogarant.jpg',
+    bgColor: 'bg-green-50'
+  },
+  {
+    name: 'ОАО «КОНАР»',
+    image: '/images/clients/konar.gif',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Интеграл»',
+    image: '/images/clients/intg.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Технология»',
+    image: '/images/clients/tehnologia.gif',
+    bgColor: 'bg-gray-50'
+  },
+  {
+    name: 'ООО «Альфаэльторг»',
+    image: '/images/clients/alfaeltorg.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Тибер»',
+    image: '/images/clients/tiber.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ГК «Оптикэнерго»',
+    image: '/images/clients/optikenergo.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ОАО «Свердловский завод трансформаторов тока»',
+    image: '/images/clients/cztt.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «ФинОптима»',
+    image: '/images/clients/finoptima.jpg',
+    bgColor: 'bg-green-50'
+  },
+  {
+    name: 'ООО «Саратовский электротехнический завод»',
+    image: '/images/clients/elektroteh.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «СДС»',
+    image: '/images/clients/sds.jpg',
+    bgColor: 'bg-gray-50'
+  },
+  {
+    name: 'ООО «Нуклин»',
+    image: '/images/clients/nuclin.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'АО «ОМК»',
+    image: '/images/clients/OMK.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Генборг»',
+    image: '/images/clients/genborg.png',
+    bgColor: 'bg-red-50'
+  },
+  {
+    name: 'ООО «КЗ «Ростсельмаш»',
+    image: '/images/clients/rostselmash.png',
+    bgColor: 'bg-red-50'
+  },
+  {
+    name: 'ООО «СП-Сервис»',
+    image: '/images/clients/sp-service.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ГУП «Петербургский метрополитен»',
+    image: '/images/clients/metropoliten.gif',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'АО «ПРОМТЕХ-Дубна»',
+    image: '/images/clients/promtech-dubna.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «ИНК»',
+    image: '/images/clients/ink.gif',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Экран-Энергия»',
+    image: '/images/clients/ecran-energy.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ГАУ «ЦЭАТ РТ»',
+    image: '/images/clients/test.tatarstan.png',
+    bgColor: 'bg-green-50'
+  },
+  {
+    name: 'ООО «Сибкомплектмонтаж»',
+    image: '/images/clients/sibkom.tomsk.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «СтартАтом»',
+    image: '/images/clients/startatom.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ЧИПС ФЛ ФГБОУ ВО «УРГУПС» Челябинский институт путей сообщения',
+    image: '/images/clients/chirt.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'АО «НПК «Антей»',
+    image: '/images/clients/antey.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Электросварка»',
+    image: '/images/clients/Ele_trosvarka.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Энергопрогресс»',
+    image: '/images/clients/eprog.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ФГБУ «ВНИИЗЖ»',
+    image: '/images/clients/arriah.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ТОО «Ken Aimak Trade»',
+    image: '/images/clients/ken_aimak_trade.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Интертехэнерго»',
+    image: '/images/clients/itertehenergo.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «ВТ-Энерго»',
+    image: '/images/clients/vt-energo.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «Корнет-Электро»',
+    image: '/images/clients/cornet-electro.png',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ООО «НАРП»',
+    image: '/images/clients/narp.gif',
+    bgColor: 'bg-gray-50'
+  },
+  {
+    name: 'ОАО «ААК «ПРОГРЕСС»',
+    image: '/images/clients/progress_aak_.jpg',
+    bgColor: 'bg-blue-50'
+  },
+  {
+    name: 'ПАО «Агрегат»',
+    image: '/images/clients/agregat.jpg',
+    bgColor: 'bg-blue-50'
+  }
+];
 
 const products = [
   {
@@ -101,6 +439,7 @@ const solutions = [
 export default function Home() {
   const router = useRouter();
   const [scale, setScale] = useState(1);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -346,6 +685,51 @@ export default function Home() {
                 <p className="text-gray-600">{feature.description}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trusted Clients Section */}
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+        <div className="container mx-auto px-4 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl font-bold mb-4">Нам доверяют</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Ведущие предприятия России и стран СНГ выбирают наше оборудование
+            </p>
+          </motion.div>
+
+          <div className="relative overflow-hidden before:absolute before:left-0 before:top-0 before:h-full before:w-24 before:bg-gradient-to-r before:from-white before:to-transparent before:z-10 after:absolute after:right-0 after:top-0 after:h-full after:w-24 after:bg-gradient-to-l after:from-white after:to-transparent after:z-10">
+            <motion.div 
+              className="flex gap-8 w-max"
+              animate={{ x: ['0%', '-100%'] }}
+              transition={{ 
+                duration: 200,
+                repeat: Infinity,
+                ease: 'linear'
+              }}
+            >
+              {[...clients, ...clients].map((client, index) => (
+                <div 
+                  key={index}
+                  className="flex items-center justify-center h-20 w-40 grayscale hover:grayscale-0 transition-all duration-300"
+                >
+                  <div className="relative h-full w-full">
+                    <Image
+                      src={client.image}
+                      alt={client.name}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>
