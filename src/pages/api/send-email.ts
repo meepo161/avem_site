@@ -138,6 +138,24 @@ ${formData.tests?.length > 0 ? formData.tests.join('\n') : 'Не выбраны'
 Дополнительные требования:
 ${formData.additionalTests || 'Не указаны'}`;
     } else if (formData.selectedProduct?.id === 'viu-100r') {
+      const operatingModeMap = {
+        'manual': 'Ручной',
+        'automatic': 'Автоматический',
+        'combined': 'Комбинированный'
+      } as const;
+
+      const controlTypeMap = {
+        'local': 'Местное',
+        'remote': 'Дистанционное',
+        'combined': 'Комбинированное'
+      } as const;
+
+      const mobilityMap = {
+        'stationary': 'Стационарное',
+        'mobile': 'Мобильное',
+        'portable': 'Переносное'
+      } as const;
+
       emailText = `
 Новая заявка на ВИУ-100Р
 
@@ -147,20 +165,32 @@ ${formData.additionalTests || 'Не указаны'}`;
 Дата поставки: ${formData.deliveryDate || 'Не указана'}
 
 Параметры испытаний:
-- Максимальное испытательное напряжение: ${formData.power || 'Не указано'} кВ
-- Требуемый ток испытания: ${formData.area || 'Не указан'} мА
+- Максимальное испытательное напряжение: ${formData.viu100r?.testVoltage || 'Не указано'} ${formData.viu100r?.testVoltage ? 'кВ' : ''}
+- Требуемый ток испытания: ${formData.viu100r?.testCurrent || 'Не указан'} ${formData.viu100r?.testCurrent ? 'мА' : ''}
+- Частота испытательного напряжения: ${formData.viu100r?.frequency || 'Не указана'} ${formData.viu100r?.frequency ? 'Гц' : ''}
 
 Типы испытуемого оборудования:
-${formData.transformerTypes?.length > 0 ? formData.transformerTypes.join('\n') : 'Не выбраны'}
+${formData.viu100r?.testObjects?.length ? formData.viu100r.testObjects.map((obj: string) => `- ${obj}`).join('\n') : 'Не выбраны'}
 
-Требуемые виды испытаний:
-${formData.tests?.length > 0 ? formData.tests.join('\n') : 'Не выбраны'}
+Конструктивное исполнение:
+- Режим работы: ${formData.viu100r?.operatingMode ? (
+  operatingModeMap[formData.viu100r.operatingMode as keyof typeof operatingModeMap] || formData.viu100r.operatingMode
+) : 'Не указан'}
+- Тип управления: ${formData.viu100r?.controlType ? (
+  controlTypeMap[formData.viu100r.controlType as keyof typeof controlTypeMap] || formData.viu100r.controlType
+) : 'Не указан'}
+- Мобильность установки: ${formData.viu100r?.mobility ? (
+  mobilityMap[formData.viu100r.mobility as keyof typeof mobilityMap] || formData.viu100r.mobility
+) : 'Не указана'}
 
-Требования к системе управления:
-${formData.automationLevels?.length > 0 ? formData.automationLevels.join('\n') : 'Не указаны'}
+Параметры питающей сети:
+${formData.viu100r?.powerSupply || 'Не указаны'}
 
-Требования к безопасности:
-${formData.regulationMethods?.length > 0 ? formData.regulationMethods.join('\n') : 'Не указаны'}
+Дополнительные опции:
+${formData.viu100r?.additionalOptions?.length ? formData.viu100r.additionalOptions.map((opt: string) => `- ${opt}`).join('\n') : 'Не выбраны'}
+
+Особые требования:
+${formData.viu100r?.specialRequirements || 'Не указаны'}
 
 Дополнительные требования:
 ${formData.additionalTests || 'Не указаны'}`;

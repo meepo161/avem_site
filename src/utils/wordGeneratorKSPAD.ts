@@ -22,6 +22,15 @@ interface FormData {
   }>;
   tests: string[];
   additionalTests: string;
+  standRequirements?: {
+    operatingMode: string;
+    powerConsumption: string;
+    area: string;
+    measurementAccuracy: string;
+    mobility: string;
+  };
+  voltageRegulation?: string;
+  organizationType: string;
 }
 
 export async function generateWord(data: FormData): Promise<Buffer> {
@@ -108,6 +117,13 @@ ${machine.type}
 - Тип охлаждения: ${machine.coolingType}`
     ).join('\n\n');
 
+    const technicalRequirementsText = `
+- Режим работы: ${data.standRequirements?.operatingMode || 'Не указан'}
+- Потребляемая мощность: ${data.standRequirements?.powerConsumption || 'Не указана'}
+- Занимаемая площадь: ${data.standRequirements?.area || 'Не указана'}
+- Точность СИ: ${data.standRequirements?.measurementAccuracy || 'Не указана'}
+- Мобильность: ${data.standRequirements?.mobility || 'Не указана'}`;
+
     const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
   <w:body>
@@ -139,6 +155,10 @@ ${machine.type}
     <w:p>
       <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
       <w:r><w:t>Дата поставки: ${data.deliveryDate || 'Не указана'}</w:t></w:r>
+    </w:p>
+    <w:p>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>Тип организации: ${data.organizationType === 'repair' ? 'Ремонтная организация' : 'Завод-изготовитель'}</w:t></w:r>
     </w:p>
 
     <w:p>
@@ -176,34 +196,22 @@ ${machine.type}
 
     <w:p>
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
-      <w:r><w:t>5. Способы регулировки частоты вращения</w:t></w:r>
+      <w:r><w:t>5. Способ регулировки напряжения</w:t></w:r>
     </w:p>
-    ${regulationMethodsText.split('\n').map(line => `
     <w:p>
       <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>${line}</w:t></w:r>
-    </w:p>`).join('')}
+      <w:r><w:t>${data.voltageRegulation || 'Не указан'}</w:t></w:r>
+    </w:p>
 
     <w:p>
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
       <w:r><w:t>6. Технические требования к стенду</w:t></w:r>
     </w:p>
+    ${technicalRequirementsText.split('\n').map(line => line.trim() ? `
     <w:p>
       <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>- Потребляемая мощность: ${data.power || 'Не указана'}</w:t></w:r>
-    </w:p>
-    <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>- Занимаемая площадь: ${data.area || 'Не указана'}</w:t></w:r>
-    </w:p>
-    <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>- Мобильность: ${data.mobile || 'Не указана'}</w:t></w:r>
-    </w:p>
-    <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>- Точность измерений: ${data.accuracy || 'Не указана'}</w:t></w:r>
-    </w:p>
+      <w:r><w:t>${line}</w:t></w:r>
+    </w:p>` : '').join('')}
 
     <w:p>
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>

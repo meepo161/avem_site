@@ -61,6 +61,7 @@ const maxFormData = {
   contactDetails: 'test@example.com, +7 999 999-99-99',
   organizationType: 'manufacturer',
   deliveryDate: new Date().toISOString().split('T')[0],
+  productId: 'KSPEM',
   norms: [
     'ГОСТ 11828-86',
     'ГОСТ 53472-2009',
@@ -178,6 +179,7 @@ const minimalFormData = {
   contactDetails: 'petrov@mail.ru, +7 900 123-45-67',
   organizationType: 'customer',
   deliveryDate: new Date().toISOString().split('T')[0],
+  productId: 'KSPEM',
   norms: ['ГОСТ 11828-86'],
   constructionFeatures: ['На лапах'],
   kspemMachines: [
@@ -206,6 +208,7 @@ const mediumAsyncFormData = {
   contactDetails: 'sidorov@electromotor.ru, +7 495 555-77-88',
   organizationType: 'manufacturer',
   deliveryDate: new Date().toISOString().split('T')[0],
+  productId: 'KSPEM',
   norms: [
     'ГОСТ 11828-86',
     'ГОСТ 7217-87',
@@ -255,6 +258,7 @@ const highVoltageFormData = {
   contactDetails: 'kuznetsov@hvmash.ru, +7 812 999-00-11',
   organizationType: 'manufacturer',
   deliveryDate: new Date().toISOString().split('T')[0],
+  productId: 'KSPEM',
   norms: [
     'ГОСТ 11828-86',
     'ГОСТ Р (МЭК 60034-1-2014)',
@@ -306,6 +310,7 @@ const labFormData = {
   contactDetails: 'morozova@niiel.ru, +7 383 222-33-44',
   organizationType: 'laboratory',
   deliveryDate: new Date().toISOString().split('T')[0],
+  productId: 'KSPEM',
   norms: [
     'ГОСТ 11828-86',
     'ГОСТ 53472-2009',

@@ -5,12 +5,18 @@ interface VIU100RFormData {
   contactPerson: string;
   contactDetails: string;
   deliveryDate: string;
-  power: string; // Максимальное испытательное напряжение
-  area: string; // Требуемый ток испытания
-  transformerTypes: string[]; // Типы испытуемого оборудования
-  tests: string[]; // Требуемые виды испытаний
-  automationLevels: string[]; // Требования к системе управления
-  regulationMethods: string[]; // Требования к безопасности
+  viu100r?: {
+    testObjects: string[];           // Объекты испытаний
+    testVoltage: string;            // Испытательное напряжение
+    testCurrent: string;            // Испытательный ток
+    frequency: string;              // Частота испытательного напряжения
+    operatingMode: string;          // Режим работы
+    controlType: string;            // Тип управления
+    mobility: string;               // Мобильность установки
+    powerSupply: string;           // Параметры питающей сети
+    additionalOptions: string[];    // Дополнительные опции
+    specialRequirements: string;    // Особые требования
+  };
   additionalTests?: string;
 }
 
@@ -49,7 +55,7 @@ export async function generateVIU100RWord(data: VIU100RFormData): Promise<Buffer
     <w:rPr>
       <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
       <w:b/>
-      <w:sz w:val="32"/>
+      <w:sz w:val="26"/>
     </w:rPr>
   </w:style>
   <w:style w:type="paragraph" w:styleId="Normal">
@@ -60,8 +66,8 @@ export async function generateVIU100RWord(data: VIU100RFormData): Promise<Buffer
     </w:pPr>
     <w:rPr>
       <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
-      <w:sz w:val="24"/>
-      <w:szCs w:val="24"/>
+      <w:sz w:val="22"/>
+      <w:szCs w:val="22"/>
     </w:rPr>
   </w:style>
   <w:style w:type="paragraph" w:styleId="ListParagraph">
@@ -80,15 +86,10 @@ export async function generateVIU100RWord(data: VIU100RFormData): Promise<Buffer
     </w:pPr>
     <w:rPr>
       <w:b/>
-      <w:sz w:val="28"/>
+      <w:sz w:val="24"/>
     </w:rPr>
   </w:style>
 </w:styles>`);
-
-    const transformerTypesText = data.transformerTypes.map(type => `• ${type}`).join('\n');
-    const testsText = data.tests.map(test => `• ${test}`).join('\n');
-    const automationLevelsText = data.automationLevels.map(level => `• ${level}`).join('\n');
-    const regulationMethodsText = data.regulationMethods.map(method => `• ${method}`).join('\n');
 
     const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
@@ -125,63 +126,94 @@ export async function generateVIU100RWord(data: VIU100RFormData): Promise<Buffer
 
     <w:p>
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
-      <w:r><w:t>2. Параметры испытаний</w:t></w:r>
+      <w:r><w:t>2. Объекты испытаний</w:t></w:r>
+    </w:p>
+    ${(data.viu100r?.testObjects || []).map(object => `
+    <w:p>
+      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
+      <w:r><w:t>• ${object}</w:t></w:r>
+    </w:p>`).join('')}
+
+    <w:p>
+      <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
+      <w:r><w:t>3. Параметры испытаний</w:t></w:r>
     </w:p>
     <w:p>
       <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
-      <w:r><w:t>Максимальное испытательное напряжение: ${data.power || 'Не указано'} кВ</w:t></w:r>
+      <w:r><w:t>Испытательное напряжение: ${data.viu100r?.testVoltage || 'Не указано'}</w:t></w:r>
     </w:p>
     <w:p>
       <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
-      <w:r><w:t>Требуемый ток испытания: ${data.area || 'Не указан'} мА</w:t></w:r>
+      <w:r><w:t>Испытательный ток: ${data.viu100r?.testCurrent || 'Не указан'}</w:t></w:r>
+    </w:p>
+    <w:p>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>Частота испытательного напряжения: ${data.viu100r?.frequency || 'Не указана'}</w:t></w:r>
     </w:p>
 
     <w:p>
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
-      <w:r><w:t>3. Типы испытуемого оборудования</w:t></w:r>
+      <w:r><w:t>4. Конструктивное исполнение</w:t></w:r>
     </w:p>
-    ${transformerTypesText.split('\n').map(line => `
+    <w:p>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>Режим работы: ${data.viu100r?.operatingMode ? {
+        'manual': 'Ручной',
+        'automatic': 'Автоматический',
+        'combined': 'Комбинированный'
+      }[data.viu100r.operatingMode] || data.viu100r.operatingMode : 'Не указан'}</w:t></w:r>
+    </w:p>
+    <w:p>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>Тип управления: ${data.viu100r?.controlType ? {
+        'local': 'Местное',
+        'remote': 'Дистанционное',
+        'combined': 'Комбинированное'
+      }[data.viu100r.controlType] || data.viu100r.controlType : 'Не указан'}</w:t></w:r>
+    </w:p>
+    <w:p>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>Мобильность установки: ${data.viu100r?.mobility ? {
+        'stationary': 'Стационарное',
+        'mobile': 'Мобильное',
+        'portable': 'Переносное'
+      }[data.viu100r.mobility] || data.viu100r.mobility : 'Не указана'}</w:t></w:r>
+    </w:p>
+
+    <w:p>
+      <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
+      <w:r><w:t>5. Параметры питающей сети</w:t></w:r>
+    </w:p>
+    <w:p>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>${data.viu100r?.powerSupply || 'Не указаны'}</w:t></w:r>
+    </w:p>
+
+    <w:p>
+      <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
+      <w:r><w:t>6. Дополнительные опции</w:t></w:r>
+    </w:p>
+    ${(data.viu100r?.additionalOptions || []).map(option => `
     <w:p>
       <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>${line}</w:t></w:r>
+      <w:r><w:t>• ${option}</w:t></w:r>
     </w:p>`).join('')}
 
     <w:p>
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
-      <w:r><w:t>4. Требуемые виды испытаний</w:t></w:r>
+      <w:r><w:t>7. Особые требования</w:t></w:r>
     </w:p>
-    ${testsText.split('\n').map(line => `
     <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>${line}</w:t></w:r>
-    </w:p>`).join('')}
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>${data.viu100r?.specialRequirements || 'Не указаны'}</w:t></w:r>
+    </w:p>
 
     <w:p>
       <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
-      <w:r><w:t>5. Требования к системе управления</w:t></w:r>
-    </w:p>
-    ${automationLevelsText.split('\n').map(line => `
-    <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>${line}</w:t></w:r>
-    </w:p>`).join('')}
-
-    <w:p>
-      <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
-      <w:r><w:t>6. Требования к безопасности</w:t></w:r>
-    </w:p>
-    ${regulationMethodsText.split('\n').map(line => `
-    <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>${line}</w:t></w:r>
-    </w:p>`).join('')}
-
-    <w:p>
-      <w:pPr><w:pStyle w:val="Heading2"/></w:pPr>
-      <w:r><w:t>7. Дополнительные требования</w:t></w:r>
+      <w:r><w:t>8. Дополнительные требования</w:t></w:r>
     </w:p>
     <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
       <w:r><w:t>${data.additionalTests || 'Не указаны'}</w:t></w:r>
     </w:p>
 
