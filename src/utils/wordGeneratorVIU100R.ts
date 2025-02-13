@@ -11,7 +11,7 @@ interface VIU100RFormData {
   tests: string[]; // Требуемые виды испытаний
   automationLevels: string[]; // Требования к системе управления
   regulationMethods: string[]; // Требования к безопасности
-  additionalTests: string;
+  additionalTests?: string;
 }
 
 export async function generateVIU100RWord(data: VIU100RFormData): Promise<Buffer> {
@@ -128,12 +128,12 @@ export async function generateVIU100RWord(data: VIU100RFormData): Promise<Buffer
       <w:r><w:t>2. Параметры испытаний</w:t></w:r>
     </w:p>
     <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>Максимальное испытательное напряжение: ${data.power || 'Не указано'}</w:t></w:r>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>Максимальное испытательное напряжение: ${data.power || 'Не указано'} кВ</w:t></w:r>
     </w:p>
     <w:p>
-      <w:pPr><w:pStyle w:val="ListParagraph"/></w:pPr>
-      <w:r><w:t>Требуемый ток испытания: ${data.area || 'Не указан'}</w:t></w:r>
+      <w:pPr><w:pStyle w:val="Normal"/></w:pPr>
+      <w:r><w:t>Требуемый ток испытания: ${data.area || 'Не указан'} мА</w:t></w:r>
     </w:p>
 
     <w:p>

@@ -21,16 +21,6 @@ export default async function handler(
       throw new Error('Отсутствуют данные формы');
     }
 
-    // Проверяем обязательные поля
-    const requiredFields = ['organization', 'contactPerson', 'contactDetails', 'deliveryDate'];
-    const missingFields = requiredFields.filter(field => !formData[field]);
-    if (missingFields.length > 0) {
-      return res.status(400).json({ 
-        message: 'Отсутствуют обязательные поля', 
-        fields: missingFields 
-      });
-    }
-
     console.log('🔍 Проверка переменных окружения...');
     if (!process.env.EMAIL_PASSWORD) {
       throw new Error('Отсутствует конфигурация EMAIL_PASSWORD');
